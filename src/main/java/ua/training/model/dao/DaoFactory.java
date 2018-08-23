@@ -1,13 +1,15 @@
 package ua.training.model.dao;
 
 import ua.training.model.dao.implementation.JDBCDaoFactory;
+import ua.training.model.enums.Subject;
 
 public abstract class DaoFactory {
     private static DaoFactory daoFactory;
 
-    public abstract UserDao createUserDao();
-    public abstract UniversityDao createUniversityDao();
-//    public abstract SpecialityDao createSpecialityDao();
+    public abstract UserDao getUserDao();
+    public abstract UniversityDao getUniversityDao();
+    public abstract SpecialityDao getSpecialityDao();
+    public abstract SubjectDao getSubjectDao();
 
     public static DaoFactory getInstance() {
         if (daoFactory == null) {

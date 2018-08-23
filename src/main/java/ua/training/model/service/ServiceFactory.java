@@ -4,4 +4,5 @@ public interface ServiceFactory {
     UserService getUserService();
     UniversityService getUniversityService();
     SpecialityService getSpecialityService();
+    SubjectService getSubjectService();
 }

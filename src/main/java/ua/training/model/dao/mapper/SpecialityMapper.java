@@ -10,8 +10,8 @@ public class SpecialityMapper {
     public Speciality extractFromResultSet(ResultSet rs) throws SQLException {
         Speciality speciality = new Speciality();
         speciality.setId(rs.getLong("id"));
-        speciality.setTitle(rs.getString("title"));
         speciality.setMaxStudentCount(rs.getInt("max_student_count"));
+        speciality.setTitle(rs.getString("title"));
 
         return speciality;
     }

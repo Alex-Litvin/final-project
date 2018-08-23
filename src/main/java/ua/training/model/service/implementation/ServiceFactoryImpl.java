@@ -1,21 +1,20 @@
 package ua.training.model.service.implementation;
 
-import ua.training.model.service.ServiceFactory;
-import ua.training.model.service.SpecialityService;
-import ua.training.model.service.UniversityService;
-import ua.training.model.service.UserService;
+import ua.training.model.service.*;
 
 public class ServiceFactoryImpl implements ServiceFactory {
-    private static ServiceFactoryImpl instance;
+    private static final ServiceFactoryImpl instance = new ServiceFactoryImpl();
 
-    private UserService userService;
-    private UniversityService universityService;
-    private SpecialityService specialityService;
+    private final UserService userService;
+    private final UniversityService universityService;
+    private final SpecialityService specialityService;
+    private final SubjectService subjectService;
 
     private ServiceFactoryImpl() {
-        this.userService = new UserServiceImpl();
-        this.universityService = new UniversityServiceImpl();
-        this.specialityService = new SpecialityServiceImpl();
+        userService = new UserServiceImpl();
+        universityService = new UniversityServiceImpl();
+        specialityService = new SpecialityServiceImpl();
+        subjectService = new SubjectServiceImpl();
     }
 
     public static ServiceFactoryImpl getInstance() {
@@ -40,5 +39,8 @@ public class ServiceFactoryImpl implements ServiceFactory {
         return specialityService;
     }
 
-
+    @Override
+    public SubjectService getSubjectService() {
+        return subjectService;
+    }
 }

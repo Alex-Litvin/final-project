@@ -9,7 +9,7 @@ import ua.training.model.service.UserService;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
-    private UserDao userDao = DaoFactory.getInstance().createUserDao();
+    private UserDao userDao = DaoFactory.getInstance().getUserDao();
 
     @Override
     public void create(User user) {

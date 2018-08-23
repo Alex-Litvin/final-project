@@ -11,24 +11,30 @@ public class JDBCDaoFactory extends DaoFactory {
     private DataSource dataSource = ConnectionPoolHolder.getDataSource();
 
     @Override
-    public UserDao createUserDao() {
+    public UserDao getUserDao() {
         return new JDBCUserDao(getConnection());
     }
 
     @Override
-    public UniversityDao createUniversityDao() {
+    public UniversityDao getUniversityDao() {
         return new JDBCUniversityDao(getConnection());
     }
 
-//    @Override
-    public SpecialityDao createSpecialityDao() {
+    @Override
+    public SpecialityDao getSpecialityDao() {
         return new JDBCSpecialityDao(getConnection());
+    }
+
+    @Override
+    public SubjectDao getSubjectDao() {
+        return new JDBCSubjectDao(getConnection());
     }
 
     private Connection getConnection() {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

@@ -18,7 +18,7 @@ public class JDBCUniversityDao implements UniversityDao {
     @Override
     public Long create(University entity) {
         String query = "INSERT INTO university (title) VALUES (?)";
-        try(PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, entity.getTitle());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -31,10 +31,23 @@ public class JDBCUniversityDao implements UniversityDao {
     }
 
     @Override
+    public boolean markAsDeleted(Long universityId) {
+        String query = "UPDATE university SET deleted = TRUE WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setLong(1, universityId);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
     public University findById(Long id) {
         String query = "SELECT * FROM university WHERE id = ?";
         University university = null;
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             UniversityMapper mapper = new UniversityMapper();
@@ -50,9 +63,9 @@ public class JDBCUniversityDao implements UniversityDao {
 
     @Override
     public List<University> findAllUniversities() {
-        String query = "SELECT * FROM university";
+        String query = "SELECT * FROM university WHERE deleted = FALSE";
         List<University> universities = new ArrayList<>();
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             UniversityMapper mapper = new UniversityMapper();
             while (rs.next()) {
@@ -74,6 +87,20 @@ public class JDBCUniversityDao implements UniversityDao {
             ResultSet rs = ps.getGeneratedKeys();
             rs.next();
             return rs.getLong(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public Long update(University university) {
+        String query = "UPDATE university SET title = ? WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, university.getTitle());
+            ps.setLong(2, university.getId());
+            ps.executeUpdate();
+            return university.getId();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();

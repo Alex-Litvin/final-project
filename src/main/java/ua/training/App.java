@@ -4,21 +4,18 @@ package ua.training;
 import ua.training.model.User;
 import ua.training.model.enums.Role;
 import ua.training.model.enums.Status;
+import ua.training.model.service.SubjectService;
+import ua.training.model.service.implementation.ServiceFactoryImpl;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) throws UnsupportedEncodingException {
-        User user = User.builder()
-                .firstName("Doris")
-                .middleName("Pert")
-                .secondName("Motov")
-                .role(Role.USER)
-                .password("12343")
-                .mobile("0913901232")
-                .email("potov@gmail.com")
-                .status(Status.ACTIVE)
-                .build();
+        SubjectService subjectService = ServiceFactoryImpl.getInstance().getSubjectService();
+        subjectService.getIdsByNames(Arrays.asList("BIOLOGY", "CHEMISTRY", "COMPUTER_SCIENCE")).forEach(System.out::println);
+
         System.out.println(getUnicodeCodes("Вийти!"));
 
     }

@@ -10,11 +10,21 @@ import java.util.List;
 import java.util.Map;
 
 public class UniversityServiceImpl implements UniversityService {
-    private UniversityDao universityDao = DaoFactory.getInstance().createUniversityDao();
+    private UniversityDao universityDao = DaoFactory.getInstance().getUniversityDao();
 
     @Override
     public Long createUniversity(University university) {
         return universityDao.create(university);
+    }
+
+    @Override
+    public boolean deleteById(Long universityId) {
+        return universityDao.markAsDeleted(universityId);
+    }
+
+    @Override
+    public Long update(University university) {
+        return universityDao.update(university);
     }
 
     @Override

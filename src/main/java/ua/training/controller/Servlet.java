@@ -33,7 +33,13 @@ public class Servlet extends HttpServlet {
     }
 
     private void executeCommand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println(")))))))))))))))))))))))))))))))))))))))))))");
+        System.out.println(req.getAttribute("command"));
+        System.out.println(")))))))))))))))))))))))))))))))))))))))))))");
+
         String index = controllerHelper.getCommand(req).execute(req, resp);
+
+        System.out.println(index);
         req.getRequestDispatcher(index).forward(req, resp);
     }
 }

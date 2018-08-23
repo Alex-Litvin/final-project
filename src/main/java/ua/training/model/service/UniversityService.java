@@ -8,6 +8,8 @@ import java.util.Map;
 
 public interface UniversityService {
     Long createUniversity(University university);
+    boolean deleteById(Long universityId);
+    Long update(University university);
     Long createUniversitySpeciality(Long universityId, Long specialityId);
     University findUniversityById(Long id);
     List<University> findAllUniversities();
