@@ -12,6 +12,7 @@ public interface UniversityService {
     Long update(University university);
     Long createUniversitySpeciality(Long universityId, Long specialityId);
     University findUniversityById(Long id);
+    University findUniversityBySpecialityId(Long specialityId);
     List<University> findAllUniversities();
-    Map<University, List<Speciality>> getAllUniversitiesWithSpecialities();
+    List<University> getAllUniversitiesWithSpecialities();
 }

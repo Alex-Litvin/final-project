@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SpecialityCommand implements Command {
+public class ShowSpecialityCommand implements Command {
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
     private SubjectService subjectService = ServiceFactoryImpl.getInstance().getSubjectService();
 
@@ -25,6 +25,6 @@ public class SpecialityCommand implements Command {
                 .collect(Collectors.toList());
         request.setAttribute("specialitiesWithSubjects", specialitiesWithSubjects);
 
-        return "/?command=showUniversities";
+        return "/view/userbasic.jsp";
     }
 }

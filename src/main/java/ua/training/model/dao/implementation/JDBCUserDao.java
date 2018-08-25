@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class JDBCUserDao implements UserDao {
     public void create(User entity) {
         String query = "INSERT INTO user (first_name, second_name, middle_name," +
                 "role, password, mobile, email, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, entity.getFirstName());
             ps.setString(2, entity.getSecondName());
             ps.setString(3, entity.getMiddleName());
@@ -43,17 +44,18 @@ public class JDBCUserDao implements UserDao {
     public User findById(Long id) {
         String query = "SELECT * FROM user WHERE id = ?";
         User user = null;
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             UserMapper userMapper = new UserMapper();
             if (rs.next()) {
-               user =  userMapper.extractFromResultSet(rs);
+                user = userMapper.extractFromResultSet(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
-        } ;
+        }
+        ;
         return user;
     }
 

@@ -10,6 +10,7 @@ public abstract class DaoFactory {
     public abstract UniversityDao getUniversityDao();
     public abstract SpecialityDao getSpecialityDao();
     public abstract SubjectDao getSubjectDao();
+    public abstract ExamDao getExamDao();
 
     public static DaoFactory getInstance() {
         if (daoFactory == null) {

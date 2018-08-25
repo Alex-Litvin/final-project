@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AddSpecialityCommand implements Command {
     private SubjectService subjectService = ServiceFactoryImpl.getInstance().getSubjectService();
@@ -27,7 +29,12 @@ public class AddSpecialityCommand implements Command {
         String secondSubject = request.getParameter("secondSubject").toUpperCase();
         String thirdSubject = request.getParameter("thirdSubject").toUpperCase();
 
-        List<Long> subjectIds = subjectService.getIdsByNames(Arrays.asList(firstSubject, secondSubject, thirdSubject));
+        List<String> subjects = Arrays.asList(firstSubject, secondSubject, thirdSubject);
+        if (!checkUniqueness(subjects)) {
+            request.setAttribute("notUnique", "Subjects must be unique!");
+            return "/?command=showUniversities";
+        }
+        List<Long> subjectIds = subjectService.getIdsByNames(subjects);
 
         Speciality speciality = new Speciality();
         speciality.setTitle(title);
@@ -42,5 +49,9 @@ public class AddSpecialityCommand implements Command {
         request.setAttribute("message", "New speciality was added!");
 
         return "/?command=showUniversities";
+    }
+
+    private boolean checkUniqueness(List<String> subjects) {
+        return new HashSet<>(subjects).size() == 3;
     }
 }

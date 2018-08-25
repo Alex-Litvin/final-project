@@ -16,6 +16,11 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public List<Subject> findRequiredSubjectsBySpecialityId(Long specialityId) {
+        return subjectDao.findRequiredSubjectsBySpecialityId(specialityId);
+    }
+
+    @Override
     public Long create(Subject subject) {
         return subjectDao.create(subject);
     }
@@ -23,5 +28,15 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public List<Long> getIdsByNames(List<String> subjectTitles) {
         return subjectDao.getIdsByNames(subjectTitles);
+    }
+
+    @Override
+    public Long getIdByName(String title) {
+        return subjectDao.getIdByName(title);
+    }
+
+    @Override
+    public Subject getSubjectById(Long subjectId) {
+        return subjectDao.getSubjectById(subjectId);
     }
 }

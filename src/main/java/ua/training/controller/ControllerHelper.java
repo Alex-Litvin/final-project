@@ -22,13 +22,20 @@ class ControllerHelper {
         commandMap.put("home", new HomeCommand());
         commandMap.put("logout", new LogoutCommand());
         commandMap.put("localization", new LocalizationCommand());
-        commandMap.put("showUniversities", new UniversityCommand());
+//        commandMap.put("showUniversities", new UniversityCommand());
         commandMap.put("editUniversity", new UniversityCommand());
         commandMap.put("deleteUniversity", new UniversityCommand());
         commandMap.put("addUniversity", new UniversityCommand());
-        commandMap.put("showDepartmentCommand", new SpecialityCommand());
+//        commandMap.put("showDepartmentCommand", new SpecialityCommand());
         commandMap.put("addSpeciality", new AddSpecialityCommand());
         commandMap.put("deleteSpeciality", new DeleteSpecialityCommand());
+        commandMap.put("showApplicant", new ShowApplicantsCommand());
+        commandMap.put("showApplicantPagination", new ShowApplicantsCommand());
+        commandMap.put("registerForExam", new ExamRegistrationCommand());
+        commandMap.put("showUniversities", new ShowUniversityCommand());
+        commandMap.put("showDepartmentCommand", new ShowSpecialityCommand());
+        commandMap.put("requestForSpeciality", new AddSpecialityRequestCommand());
+        commandMap.put("showAvailableSpeciality", new ShowAvailableSpeciality());
     }
 
     Command getCommand(HttpServletRequest request) {

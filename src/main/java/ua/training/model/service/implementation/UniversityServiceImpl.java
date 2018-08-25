@@ -3,14 +3,20 @@ package ua.training.model.service.implementation;
 import ua.training.model.Speciality;
 import ua.training.model.University;
 import ua.training.model.dao.DaoFactory;
+import ua.training.model.dao.SpecialityDao;
 import ua.training.model.dao.UniversityDao;
+import ua.training.model.service.SpecialityService;
 import ua.training.model.service.UniversityService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class UniversityServiceImpl implements UniversityService {
     private UniversityDao universityDao = DaoFactory.getInstance().getUniversityDao();
+    private SpecialityDao specialityDao = DaoFactory.getInstance().getSpecialityDao();
 
     @Override
     public Long createUniversity(University university) {
@@ -38,12 +44,19 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
     @Override
+    public University findUniversityBySpecialityId(Long specialityId) {
+        return universityDao.findUniversityBySpecialityId(specialityId);
+    }
+
+    @Override
     public List<University> findAllUniversities() {
         return universityDao.findAllUniversities();
     }
 
     @Override
-    public Map<University, List<Speciality>> getAllUniversitiesWithSpecialities() {
-        return null;
+    public List<University> getAllUniversitiesWithSpecialities() {
+        return universityDao.findAllUniversities().stream()
+                .peek(u -> u.setSpecialities(specialityDao.findAllSpecialitiesByUniversityId(u.getId())))
+                .collect(Collectors.toList());
     }
 }

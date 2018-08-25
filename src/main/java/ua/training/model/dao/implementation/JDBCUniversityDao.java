@@ -106,4 +106,23 @@ public class JDBCUniversityDao implements UniversityDao {
             throw new RuntimeException();
         }
     }
+
+    @Override
+    public University findUniversityBySpecialityId(Long specialityId) {
+        String query = "SELECT * FROM university LEFT JOIN university_speciality u on university.id = u.university_id  WHERE deleted = FALSE AND speciality_id = ?";
+        University university = null;
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setLong(1, specialityId);
+            ResultSet rs = ps.executeQuery();
+            UniversityMapper mapper = new UniversityMapper();
+            if (rs.next()) {
+                university = mapper.extractFromResultSet(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return university;
+
+    }
 }

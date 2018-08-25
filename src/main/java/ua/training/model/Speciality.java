@@ -12,7 +12,9 @@ import java.util.List;
 public class Speciality {
     private Long id;
     private String title;
+    private String universityTitle;
     private Integer maxStudentCount;
+    private Integer passmark;
     private List<Subject> requiredSubject;
     private List<User> users;
 }

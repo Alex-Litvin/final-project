@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+<%@include file="menu.jsp" %>
+
 <form action="${pageContext.request.contextPath}/main" method="post">
 <table>
 <c:if test="${!empty requestScope.universities}">
@@ -82,6 +84,7 @@
     <input type="submit" name="button" value="Submit">
 </form>
 <c:out value="${requestScope.message}"/>
+<c:out value="${requestScope.notUnique}"/>
 
 
 <h1>Show speciality by university</h1>
@@ -100,7 +103,7 @@
 </form>
 
 <table>
-    <c:forEach var="speciality" items="${requestScope.specialities}">
+    <c:forEach var="speciality" items="${requestScope.specialitiesWithSubjects}">
         <jsp:useBean id="speciality" class="ua.training.model.Speciality"/>
         <tr>
             <td>Speciality</td>
@@ -111,10 +114,12 @@
             <td><c:out value="${speciality.title}"/></td>
             <td><c:out value="${speciality.requiredSubject}"/></td>
             <td><c:out value="${speciality.maxStudentCount}"/></td>
+            <td><a href="${pageContext.request.contextPath}/?command=showApplicant&specialityId=${speciality.id}&currentPage=1&recordsPerPage=5">Show applicant</a></td>
             <td><a href="${pageContext.request.contextPath}/?command=deleteSpeciality&specialityId=${speciality.id}">Delete</a></td>
         </tr>
     </c:forEach>
 </table>
+
 
 </body>
 </html>

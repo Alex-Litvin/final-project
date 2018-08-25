@@ -9,7 +9,7 @@ public class LocalizationCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String local = request.getParameter("locale");
-        request.setAttribute("locale", local);
+        request.setAttribute("language", local);
         return "/view/main.jsp";
     }
 }

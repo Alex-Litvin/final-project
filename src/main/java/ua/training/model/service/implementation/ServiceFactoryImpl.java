@@ -9,12 +9,14 @@ public class ServiceFactoryImpl implements ServiceFactory {
     private final UniversityService universityService;
     private final SpecialityService specialityService;
     private final SubjectService subjectService;
+    private final ExamService examService;
 
     private ServiceFactoryImpl() {
         userService = new UserServiceImpl();
         universityService = new UniversityServiceImpl();
         specialityService = new SpecialityServiceImpl();
         subjectService = new SubjectServiceImpl();
+        examService = new ExamServiceImpl();
     }
 
     public static ServiceFactoryImpl getInstance() {
@@ -42,5 +44,10 @@ public class ServiceFactoryImpl implements ServiceFactory {
     @Override
     public SubjectService getSubjectService() {
         return subjectService;
+    }
+
+    @Override
+    public ExamService getExamService() {
+        return examService;
     }
 }

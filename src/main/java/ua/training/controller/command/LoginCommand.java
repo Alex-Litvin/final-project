@@ -1,6 +1,7 @@
 package ua.training.controller.command;
 
 import ua.training.model.User;
+import ua.training.model.enums.Role;
 import ua.training.model.service.UserService;
 import ua.training.model.service.implementation.ServiceFactoryImpl;
 
@@ -12,22 +13,27 @@ import java.util.Optional;
 
 public class LoginCommand implements Command {
     private UserService userService = ServiceFactoryImpl.getInstance().getUserService();
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Optional<User> user = userService.findByEmail(email);
 
-        if (!user.isPresent() || "".equals(email)) {
+        if (!user.isPresent() || "".equals(email) || "".equals(password)) {
             request.setAttribute("notFound", "Invalid login or password!");
             return "/view/login.jsp";
+        } else {
+            User currentUser = user.get();
+            if (currentUser.getPassword().equals(password)) {
+                request.getSession().setAttribute("user", user.get());
+                if (currentUser.getRole().equals(Role.USER)) {
+                    return "/view/userbasic.jsp";
+                } else {
+                    return "/view/main.jsp";
+                }
+            }
         }
-        if (user.get().getPassword().equals(password)) {
-            request.getSession().setAttribute("user", user.get());
-            return "/view/main.jsp";
-        }else {
-            request.setAttribute("notFound", "Invalid login or password!");
-            return "/view/login.jsp";
-        }
+        return "/view/login.jsp";
     }
 }

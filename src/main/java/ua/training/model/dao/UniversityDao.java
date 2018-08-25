@@ -11,4 +11,6 @@ public interface UniversityDao {
     List<University> findAllUniversities();
     Long createUniversitySpeciality(Long universityId, Long specialityId);
     Long update(University university);
+
+    University findUniversityBySpecialityId(Long specialityId);
 }

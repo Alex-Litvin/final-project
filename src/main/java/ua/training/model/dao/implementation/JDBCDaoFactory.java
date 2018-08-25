@@ -30,6 +30,11 @@ public class JDBCDaoFactory extends DaoFactory {
         return new JDBCSubjectDao(getConnection());
     }
 
+    @Override
+    public ExamDao getExamDao() {
+        return new JDBCExamDao(getConnection());
+    }
+
     private Connection getConnection() {
         try {
             return dataSource.getConnection();

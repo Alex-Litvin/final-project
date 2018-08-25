@@ -1,15 +1,20 @@
 package ua.training.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ua.training.model.enums.Subject;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-class Exam {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Exam {
     private Long id;
     private Long userId;
-    private Subject subject;
-    private LocalDateTime dateTime;
+    private Long subjectId;
     private Integer mark;
     private List<User> users;
     private List<ExamResult> examResults;
