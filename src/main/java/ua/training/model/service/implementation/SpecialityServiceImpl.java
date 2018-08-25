@@ -72,4 +72,14 @@ public  class SpecialityServiceImpl implements SpecialityService {
     public Long createSpecialityRequest(Long userId, Long universityId, Long specialityId) {
         return specialityDao.createSpecialityRequest(userId, universityId, specialityId);
     }
+
+    @Override
+    public Long findUserIdByUniversityAndSpecialityId(Long universityId, Long specialityId) {
+        return specialityDao.findUserIdByUniversityAndSpecialityId(universityId, specialityId);
+    }
+
+    @Override
+    public Long countSpecialityRequestsByUserId(Long userId) {
+        return specialityDao.countSpecialityRequestsByUserId(userId);
+    }
 }

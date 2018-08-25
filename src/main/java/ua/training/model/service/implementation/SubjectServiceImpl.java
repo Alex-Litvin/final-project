@@ -39,4 +39,9 @@ public class SubjectServiceImpl implements SubjectService {
     public Subject getSubjectById(Long subjectId) {
         return subjectDao.getSubjectById(subjectId);
     }
+
+    @Override
+    public List<Subject> getSubjectsByIds(List<Long> subjectIds) {
+        return subjectDao.getSubjectsByIds(subjectIds);
+    }
 }

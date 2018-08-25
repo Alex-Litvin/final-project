@@ -16,4 +16,8 @@ public interface SpecialityDao {
     Long getNumberOfRows(Long specialityId);
     Long createSpecialityRequest(Long userId, Long universityId, Long specialityId);
     List<Speciality> findAll();
+
+    Long findUserIdByUniversityAndSpecialityId(Long universityId, Long specialityId);
+
+    Long countSpecialityRequestsByUserId(Long userId);
 }

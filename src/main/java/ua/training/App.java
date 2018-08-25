@@ -1,8 +1,12 @@
 package ua.training;
 
 
+import ua.training.model.Exam;
 import ua.training.model.Speciality;
 import ua.training.model.User;
+import ua.training.model.dao.DaoFactory;
+import ua.training.model.dao.SpecialityDao;
+import ua.training.model.dao.SubjectDao;
 import ua.training.model.enums.Role;
 import ua.training.model.enums.Status;
 import ua.training.model.enums.Subject;
@@ -29,11 +33,13 @@ public class App {
 
         List<Long> subjectIds = Arrays.asList(1l, 2l, 3l);
 
-        Set<Subject> userSubject = new HashSet<>();
-        for (Long subjectId : subjectIds) {
-            userSubject.add(subjectService.getSubjectById(subjectId));
-        }
-        userSubject.forEach(System.out::println);
+
+//        List<Subject> userSubjects = subjectService.getSubjectsByIds(subjectIds);
+//        userSubjects.forEach(System.out::println);
+
+//        SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
+        SpecialityDao specialityDao = DaoFactory.getInstance().getSpecialityDao();
+        System.out.println(specialityDao.countSpecialityRequestsByUserId(27L));
 
 
     }

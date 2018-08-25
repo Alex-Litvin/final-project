@@ -195,4 +195,38 @@ public class JDBCSpecialityDao implements SpecialityDao {
         }
         return specialities;
     }
+
+    @Override
+    public Long findUserIdByUniversityAndSpecialityId(Long universityId, Long specialityId) {
+        String query = "SELECT user_id FROM user_speciality WHERE university_id = ? AND speciality_id = ?";
+        Long userId = null;
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setLong(1, universityId);
+            ps.setLong(2, specialityId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                userId = rs.getLong("user_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return userId;
+    }
+
+    @Override
+    public Long countSpecialityRequestsByUserId(Long userId) {
+        String query = "SELECT COUNT(user_id) AS total FROM user_speciality WHERE user_id = ?";
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setLong(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getLong("total");
+            }
+            throw new SQLException();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
 }

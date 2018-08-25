@@ -17,4 +17,7 @@ public interface SpecialityService {
     List<Speciality> findAll();
     List<Speciality> findAllSpecialitiesWithSubjectsByUniversityIds(List<Long> universityId);
     Long createSpecialityRequest(Long userId, Long universityId, Long specialityId);
+    Long findUserIdByUniversityAndSpecialityId(Long universityId, Long specialityId);
+    Long countSpecialityRequestsByUserId(Long userId);
+
 }

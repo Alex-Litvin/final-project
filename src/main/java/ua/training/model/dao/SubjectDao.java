@@ -11,4 +11,5 @@ public interface SubjectDao {
     List<Subject> findRequiredSubjectsBySpecialityId(Long specialityId);
     Long getIdByName(String title);
     Subject getSubjectById(Long subjectId);
+    List<Subject> getSubjectsByIds(List<Long> subjectIds);
 }

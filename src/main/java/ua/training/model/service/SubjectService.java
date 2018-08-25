@@ -11,4 +11,5 @@ public interface SubjectService {
     List<Long> getIdsByNames(List<String> subjectTitles);
     Long getIdByName(String title);
     Subject getSubjectById(Long subjectId);
+    List<Subject> getSubjectsByIds(List<Long> subjectIds);
 }

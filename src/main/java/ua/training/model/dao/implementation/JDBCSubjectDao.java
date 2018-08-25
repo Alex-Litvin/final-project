@@ -116,4 +116,28 @@ public class JDBCSubjectDao implements SubjectDao {
         }
         return subject;
     }
+
+    @Override
+    public List<Subject> getSubjectsByIds(List<Long> subjectIds) {
+        StringBuilder query = new StringBuilder("SELECT * FROM subject WHERE id IN (");
+        List<Subject> subjects = new ArrayList<>();
+        for (int i = 0; i < subjectIds.size(); i++) {
+            query = i < (subjectIds.size() - 1) ? query.append("?,") : query.append("?)");
+        }
+        try (PreparedStatement ps = connection.prepareStatement(query.toString())) {
+            int i = 1;
+            for (Long id : subjectIds) {
+                ps.setLong(i++, id);
+            }
+            ResultSet rs = ps.executeQuery();
+            SubjectMapper mapper = new SubjectMapper();
+            while (rs.next()) {
+                subjects.add(mapper.extractFromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return subjects;
+    }
 }

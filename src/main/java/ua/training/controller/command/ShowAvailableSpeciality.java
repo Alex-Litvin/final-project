@@ -27,14 +27,11 @@ public class ShowAvailableSpeciality implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         User user = (User) request.getSession().getAttribute("user");
-        Set<Long> subjectIds = examService.findAllExamsByUserId(user.getId()).stream()
+        List<Long> subjectIds = examService.findAllExamsByUserId(user.getId()).stream()
                 .map(Exam::getSubjectId)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
-        List<Subject> userSubjects = new ArrayList<>();
-        for (Long subjectId : subjectIds) {
-            userSubjects.add(subjectService.getSubjectById(subjectId));
-        }
+        List<Subject> userSubjects = subjectService.getSubjectsByIds(subjectIds);
 
         List<Long> universityIds = universityService.findAllUniversities().stream()
                 .map(University::getId)
@@ -42,7 +39,6 @@ public class ShowAvailableSpeciality implements Command {
 
         List<Speciality> allSpecialitiesWithSubjects = specialityService.findAllSpecialitiesWithSubjectsByUniversityIds(universityIds);
 
-        Set<University> allAvailableUniversities = new HashSet<>();
         List<Speciality> allAvailableSpecialities = new ArrayList<>();
         for (Speciality speciality : allSpecialitiesWithSubjects) {
             University university = universityService.findUniversityBySpecialityId(speciality.getId());
@@ -52,12 +48,9 @@ public class ShowAvailableSpeciality implements Command {
             Collections.sort(speciality.getRequiredSubject());
             if (userSubjects.equals(speciality.getRequiredSubject())) {
                 allAvailableSpecialities.add(speciality);
-                System.out.println(university.getTitle());
-//                allAvailableUniversities.add(university);
             }
         }
 
-        allAvailableUniversities.forEach(System.out::println);
         allAvailableSpecialities.forEach(System.out::println);
 
         request.setAttribute("allAvailableSpecialities", allAvailableSpecialities);

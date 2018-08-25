@@ -125,5 +125,9 @@
         <input type="submit" name="button" value="Submit">
     </form>
 </div>
+<c:out value="${requestScope.success}"/>
+<c:out value="${requestScope.alreadyRegistered}"/>
+<c:out value="${requestScope.maxCountRegistration}"/>
+
 </body>
 </html>
