@@ -1,6 +1,6 @@
 package ua.training.controller.command;
 
-import ua.training.model.User;
+import ua.training.model.entity.User;
 import ua.training.model.service.SpecialityService;
 import ua.training.model.service.implementation.ServiceFactoryImpl;
 

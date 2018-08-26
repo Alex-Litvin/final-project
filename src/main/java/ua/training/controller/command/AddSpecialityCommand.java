@@ -1,6 +1,6 @@
 package ua.training.controller.command;
 
-import ua.training.model.Speciality;
+import ua.training.model.entity.Speciality;
 import ua.training.model.service.SpecialityService;
 import ua.training.model.service.SubjectService;
 import ua.training.model.service.UniversityService;
@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class AddSpecialityCommand implements Command {
     private SubjectService subjectService = ServiceFactoryImpl.getInstance().getSubjectService();

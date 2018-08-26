@@ -1,12 +1,11 @@
 package ua.training.model.service.implementation;
 
-import ua.training.model.User;
+import ua.training.model.entity.User;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.UserDao;
-import ua.training.model.enums.Role;
+import ua.training.model.entity.enums.Role;
 import ua.training.model.service.UserService;
 
-import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {

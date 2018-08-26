@@ -15,7 +15,7 @@
         <th>Title</th>
     </tr>
     <c:forEach var="university" items="${requestScope.universities}">
-        <jsp:useBean id="university" class="ua.training.model.University"/>
+        <jsp:useBean id="university" class="ua.training.model.entity.University"/>
         <tr>
             <td><c:out value="${university.id}"/></td>
             <td><c:out value="${university.title}"/></td>
@@ -104,7 +104,7 @@
 
 <table>
     <c:forEach var="speciality" items="${requestScope.specialitiesWithSubjects}">
-        <jsp:useBean id="speciality" class="ua.training.model.Speciality"/>
+        <jsp:useBean id="speciality" class="ua.training.model.entity.Speciality"/>
         <tr>
             <td>Speciality</td>
             <td>Required subjects</td>

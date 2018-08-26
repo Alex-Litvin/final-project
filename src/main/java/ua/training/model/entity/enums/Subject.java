@@ -1,6 +1,4 @@
-package ua.training.model.enums;
-
-import lombok.Data;
+package ua.training.model.entity.enums;
 
 public enum Subject {
     BIOLOGY, CHEMISTRY, COMPUTER_SCIENCE, ENGLISH,

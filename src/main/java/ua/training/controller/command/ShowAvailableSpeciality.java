@@ -1,10 +1,10 @@
 package ua.training.controller.command;
 
-import ua.training.model.Exam;
-import ua.training.model.Speciality;
-import ua.training.model.University;
-import ua.training.model.User;
-import ua.training.model.enums.Subject;
+import ua.training.model.entity.Exam;
+import ua.training.model.entity.Speciality;
+import ua.training.model.entity.University;
+import ua.training.model.entity.User;
+import ua.training.model.entity.enums.Subject;
 import ua.training.model.service.ExamService;
 import ua.training.model.service.SpecialityService;
 import ua.training.model.service.SubjectService;

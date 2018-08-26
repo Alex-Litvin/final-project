@@ -1,7 +1,6 @@
 package ua.training.model.dao;
 
 import ua.training.model.dao.implementation.JDBCDaoFactory;
-import ua.training.model.enums.Subject;
 
 public abstract class DaoFactory {
     private static DaoFactory daoFactory;

@@ -1,7 +1,9 @@
 package ua.training.model.dao.implementation;
 
-import ua.training.model.Speciality;
-import ua.training.model.User;
+import ua.training.model.dao.mapper.ExamMapper;
+import ua.training.model.entity.Exam;
+import ua.training.model.entity.Speciality;
+import ua.training.model.entity.User;
 import ua.training.model.dao.SpecialityDao;
 import ua.training.model.dao.mapper.SpecialityMapper;
 import ua.training.model.dao.mapper.UserMapper;
@@ -224,6 +226,59 @@ public class JDBCSpecialityDao implements SpecialityDao {
                 return rs.getLong("total");
             }
             throw new SQLException();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public List<Speciality> findAllSpecialitiesByUserId(Long userId) {
+        String query = "SELECT * FROM speciality LEFT JOIN user_speciality u on speciality.id = u.speciality_id WHERE user_id = ?";
+        List<Speciality> specialities = new ArrayList<>();
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setLong(1, userId);
+            ResultSet rs = ps.executeQuery();
+            SpecialityMapper mapper = new SpecialityMapper();
+            while (rs.next()) {
+                specialities.add(mapper.extractFromResultSet(rs));
+            }
+            return specialities;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public Speciality findById(Long specialityId) {
+        String query = "SELECT * FROM speciality WHERE id = ?";
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setLong(1, specialityId);
+            ResultSet rs = ps.executeQuery();
+            SpecialityMapper mapper = new SpecialityMapper();
+            if (rs.next()) {
+                return mapper.extractFromResultSet(rs);
+            }
+            throw new SQLException();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public List<Exam> findRequiredExamsById(Long specialityId) {
+        String query = "SELECT * FROM speciality LEFT JOIN speciality_subject ss on speciality.id = ss.speciality_id WHERE speciality_id = ?";
+        List<Exam> exams = new ArrayList<>();
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setLong(1, specialityId);
+            ResultSet rs = ps.executeQuery();
+            ExamMapper mapper = new ExamMapper();
+            while (rs.next()) {
+                exams.add(mapper.extractFromResultSet(rs));
+            }
+            return exams;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();

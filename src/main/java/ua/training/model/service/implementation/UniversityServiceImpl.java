@@ -1,17 +1,12 @@
 package ua.training.model.service.implementation;
 
-import ua.training.model.Speciality;
-import ua.training.model.University;
+import ua.training.model.entity.University;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.SpecialityDao;
 import ua.training.model.dao.UniversityDao;
-import ua.training.model.service.SpecialityService;
 import ua.training.model.service.UniversityService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class UniversityServiceImpl implements UniversityService {

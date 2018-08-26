@@ -1,11 +1,11 @@
-package ua.training.model;
+package ua.training.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.training.model.enums.Role;
-import ua.training.model.enums.Status;
+import ua.training.model.entity.enums.Role;
+import ua.training.model.entity.enums.Status;
 
 import java.util.List;
 

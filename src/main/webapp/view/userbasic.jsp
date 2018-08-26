@@ -10,7 +10,7 @@
 <h1>Personal information</h1>
 <div>
     <c:set var="user" value="${sessionScope.user}"/>
-    <jsp:useBean id="user" class="ua.training.model.User"/>
+    <jsp:useBean id="user" class="ua.training.model.entity.User"/>
     <td><c:out value="${user.firstName}"/></td>
     <td><c:out value="${user.middleName}"/></td>
     <td><c:out value="${user.secondName}"/></td>
@@ -55,7 +55,7 @@
             <td>Title</td>
         </tr>
         <c:forEach var="university" items="${requestScope.universities}">
-            <jsp:useBean id="university" class="ua.training.model.University"/>
+            <jsp:useBean id="university" class="ua.training.model.entity.University"/>
             <tr>
                 <td><c:out value="${university.title}"/></td>
             </tr>
@@ -93,7 +93,7 @@
             <th>Required subject</th>
         </tr>
         <c:forEach var="speciality" items="${requestScope.specialitiesWithSubjects}">
-            <jsp:useBean id="speciality" class="ua.training.model.Speciality"/>
+            <jsp:useBean id="speciality" class="ua.training.model.entity.Speciality"/>
             <tr>
                 <td><c:out value="${speciality.title}"/></td>
                 <td><c:out value="${speciality.maxStudentCount}"/></td>
@@ -129,5 +129,64 @@
 <c:out value="${requestScope.alreadyRegistered}"/>
 <c:out value="${requestScope.maxCountRegistration}"/>
 
+<h1>Show speciality rating for registered specialities</h1>
+<div>
+    <form>
+        <input type="hidden" name="command" value="showSpecialityRequest">
+        <p><input type="submit" value="Reload"></p>
+    </form>
+</div>
+<div>
+    <form method="post" action="${pageContext.request.contextPath}/main">
+        <label>
+            <select name="specialityId">
+                <c:forEach var="speciality" items="${requestScope.specialityRequests}">
+                    <option value="${speciality.id}">
+                        <c:out value="${speciality.title} "/><c:out value="${speciality.universityTitle}"/>
+                    </option>
+                </c:forEach>
+            </select>
+        </label>
+        <input type="hidden" name="command" value="showSpecialityRating">
+        <input type="submit" name="button" value="Submit">
+    </form>
+</div>
+<div>
+    <table>
+        <c:forEach var="specialityResultDto" items="${requestScope.specialityResultDtos}">
+            <jsp:useBean id="specialityResultDto" class="ua.training.model.entity.SpecialityResultDto"/>
+            <tr>
+                <td>First name</td>
+                <td>Middle name</td>
+                <td>Last name</td>
+                <td>Last name</td>
+                <td>University</td>
+                <td>Speciality</td>
+                <td>Max student count</td>
+                <td>Passmark</td>
+                <td>Total mark</td>
+            </tr>
+            <tr>
+                <td><c:out value="${specialityResultDto.firstName}"/></td>
+                <td><c:out value="${specialityResultDto.middleName}"/></td>
+                <td><c:out value="${specialityResultDto.secondName}"/></td>
+                <td><c:out value="${specialityResultDto.universityTitle}"/></td>
+                <td><c:out value="${specialityResultDto.specialityTitle}"/></td>
+                <td><c:out value="${specialityResultDto.maxStudentCount}"/></td>
+                <td><c:out value="${specialityResultDto.specialityPassmark}"/></td>
+                <c:forEach var="exam" items="${specialityResultDto.userExams}">
+                    <tr>
+                        <td><c:out value="${exam.key}"/></td>
+                        <td><c:out value="${exam.key}"/></td>
+                        <td><c:out value="${exam.key}"/></td>
+                    </tr>
+                    <td><c:out value="${exam.value}"/></td>
+                    <td><c:out value="${exam.value}"/></td>
+                    <td><c:out value="${exam.value}"/></td>
+                </c:forEach>
+            <td><c:out value="${specialityResultDto.totalUserMark}"/></td>
+        </c:forEach>
+    </table>
+</div>
 </body>
 </html>

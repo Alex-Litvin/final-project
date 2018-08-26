@@ -1,11 +1,9 @@
-package ua.training.model;
+package ua.training.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.training.model.enums.Subject;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data

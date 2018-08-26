@@ -1,9 +1,8 @@
 package ua.training.model.dao;
 
-import ua.training.model.User;
-import ua.training.model.enums.Role;
+import ua.training.model.entity.User;
+import ua.training.model.entity.enums.Role;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserDao extends GenericDao<User> {

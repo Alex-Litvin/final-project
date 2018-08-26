@@ -1,8 +1,7 @@
 package ua.training.controller.command;
 
-import ua.training.model.entity.University;
+import ua.training.model.entity.Speciality;
 import ua.training.model.entity.User;
-import ua.training.model.entity.enums.Role;
 import ua.training.model.service.SpecialityService;
 import ua.training.model.service.UniversityService;
 import ua.training.model.service.implementation.ServiceFactoryImpl;
@@ -12,20 +11,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class ShowUniversityCommand implements Command {
-    private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
+public class ShowSpecialityRequestCommand implements Command {
+
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
+    private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         User user = (User) request.getSession().getAttribute("user");
-        List<University> universities = universityService.findAllUniversities();
-        request.setAttribute("universities", universities);
+        List<Speciality> specialities = specialityService.findAllSpecialitiesByUserId(user.getId());
+        List<Speciality> specialityRequests = specialities.stream()
+                .peek(speciality -> speciality.setUniversityTitle(universityService.findUniversityBySpecialityId(speciality.getId()).getTitle()))
+                .collect(Collectors.toList());
 
-        if (user.getRole().equals(Role.USER)) {
-            return "/view/userbasic.jsp";
-        }
-        return "/view/universities.jsp";
+        request.setAttribute("specialityRequests", specialityRequests);
+
+        return "/view/userbasic.jsp";
     }
 }

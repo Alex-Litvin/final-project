@@ -1,6 +1,6 @@
 package ua.training.model.dao;
 
-import ua.training.model.University;
+import ua.training.model.entity.University;
 
 import java.util.List;
 

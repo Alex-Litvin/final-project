@@ -1,7 +1,7 @@
 package ua.training.util;
 
-import ua.training.model.User;
-import ua.training.model.enums.Role;
+import ua.training.model.entity.User;
+import ua.training.model.entity.enums.Role;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;

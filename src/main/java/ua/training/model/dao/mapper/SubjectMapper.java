@@ -1,6 +1,6 @@
 package ua.training.model.dao.mapper;
 
-import ua.training.model.enums.Subject;
+import ua.training.model.entity.enums.Subject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

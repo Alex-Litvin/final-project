@@ -1,6 +1,6 @@
 package ua.training.model.dao.implementation;
 
-import ua.training.model.University;
+import ua.training.model.entity.University;
 import ua.training.model.dao.UniversityDao;
 import ua.training.model.dao.mapper.UniversityMapper;
 

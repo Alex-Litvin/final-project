@@ -1,9 +1,8 @@
 package ua.training.model.dao.implementation;
 
-import ua.training.model.Speciality;
 import ua.training.model.dao.SubjectDao;
 import ua.training.model.dao.mapper.SubjectMapper;
-import ua.training.model.enums.Subject;
+import ua.training.model.entity.enums.Subject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

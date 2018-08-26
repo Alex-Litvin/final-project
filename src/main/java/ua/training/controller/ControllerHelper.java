@@ -36,6 +36,8 @@ class ControllerHelper {
         commandMap.put("showDepartmentCommand", new ShowSpecialityCommand());
         commandMap.put("requestForSpeciality", new AddSpecialityRequestCommand());
         commandMap.put("showAvailableSpeciality", new ShowAvailableSpeciality());
+        commandMap.put("showSpecialityRating", new ShowSpecialityRatingCommand());
+        commandMap.put("showSpecialityRequest", new ShowSpecialityRequestCommand());
     }
 
     Command getCommand(HttpServletRequest request) {

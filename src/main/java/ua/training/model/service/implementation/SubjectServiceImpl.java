@@ -2,7 +2,7 @@ package ua.training.model.service.implementation;
 
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.SubjectDao;
-import ua.training.model.enums.Subject;
+import ua.training.model.entity.enums.Subject;
 import ua.training.model.service.SubjectService;
 
 import java.util.List;

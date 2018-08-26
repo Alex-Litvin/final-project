@@ -1,7 +1,7 @@
 package ua.training.model.dao;
 
 
-import ua.training.model.Exam;
+import ua.training.model.entity.Exam;
 
 import java.util.List;
 
@@ -11,4 +11,6 @@ public interface ExamDao {
     Long countExamsByUserId(Long userId);
 
     List<Exam> findAllExamsByUserId(Long userId);
+
+    List<Exam> findAllExamsByUserIds(List<Long> userIds);
 }

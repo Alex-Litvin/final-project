@@ -1,9 +1,9 @@
 package ua.training.controller.command;
 
 import ua.training.controller.utility.Validator;
-import ua.training.model.User;
-import ua.training.model.enums.Role;
-import ua.training.model.enums.Status;
+import ua.training.model.entity.User;
+import ua.training.model.entity.enums.Role;
+import ua.training.model.entity.enums.Status;
 import ua.training.model.service.UserService;
 import ua.training.model.service.implementation.ServiceFactoryImpl;
 

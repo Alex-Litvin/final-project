@@ -1,6 +1,6 @@
 package ua.training.model.service;
 
-import ua.training.model.enums.Subject;
+import ua.training.model.entity.enums.Subject;
 
 import java.util.List;
 

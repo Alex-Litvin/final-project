@@ -1,7 +1,8 @@
 package ua.training.model.dao;
 
-import ua.training.model.Speciality;
-import ua.training.model.User;
+import ua.training.model.entity.Exam;
+import ua.training.model.entity.Speciality;
+import ua.training.model.entity.User;
 
 import java.util.List;
 
@@ -20,4 +21,10 @@ public interface SpecialityDao {
     Long findUserIdByUniversityAndSpecialityId(Long universityId, Long specialityId);
 
     Long countSpecialityRequestsByUserId(Long userId);
+
+    List<Speciality> findAllSpecialitiesByUserId(Long userId);
+
+    Speciality findById(Long specialityId);
+
+    List<Exam> findRequiredExamsById(Long specialityId);
 }

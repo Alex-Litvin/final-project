@@ -20,7 +20,7 @@
         </tr>
 
         <c:forEach var="user" items="${requestScope.users}">
-            <jsp:useBean id="user" class="ua.training.model.User"/>
+            <jsp:useBean id="user" class="ua.training.model.entity.User"/>
             <tr>
                 <td><c:out value="${user.id}"/></td>
                 <td><c:out value="${user.firstName}"/></td>

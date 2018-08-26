@@ -1,8 +1,8 @@
 package ua.training.model.dao.mapper;
 
-import ua.training.model.User;
-import ua.training.model.enums.Role;
-import ua.training.model.enums.Status;
+import ua.training.model.entity.User;
+import ua.training.model.entity.enums.Role;
+import ua.training.model.entity.enums.Status;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

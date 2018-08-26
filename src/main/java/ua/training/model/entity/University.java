@@ -1,4 +1,4 @@
-package ua.training.model;
+package ua.training.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

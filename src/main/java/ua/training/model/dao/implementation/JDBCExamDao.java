@@ -1,8 +1,10 @@
 package ua.training.model.dao.implementation;
 
-import ua.training.model.Exam;
+import ua.training.model.dao.mapper.SpecialityMapper;
+import ua.training.model.entity.Exam;
 import ua.training.model.dao.ExamDao;
 import ua.training.model.dao.mapper.ExamMapper;
+import ua.training.model.entity.Speciality;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -76,6 +78,31 @@ public class JDBCExamDao implements ExamDao {
             while (rs.next()) {
                 exams.add(mapper.extractFromResultSet(rs));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return exams;
+    }
+
+    @Override
+    public List<Exam> findAllExamsByUserIds(List<Long> userIds) {
+        StringBuilder query = new StringBuilder("SELECT * FROM exam WHERE user_id IN (");
+        List<Exam> exams = new ArrayList<>();
+        for (int i = 0; i < userIds.size(); i++) {
+            query = i < (userIds.size() - 1) ? query.append("?,") : query.append("?)");
+        }
+        try (PreparedStatement ps = connection.prepareStatement(query.toString())) {
+            int i = 1;
+            for (Long id : userIds) {
+                ps.setLong(i++, id);
+            }
+            ResultSet rs = ps.executeQuery();
+            ExamMapper mapper = new ExamMapper();
+            while (rs.next()) {
+                exams.add(mapper.extractFromResultSet(rs));
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
