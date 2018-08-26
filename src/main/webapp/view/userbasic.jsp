@@ -168,6 +168,7 @@
                     <td><c:out value="${mark}"/></td>
                 </c:forEach>
                 <td>Total mark</td>
+                <td>Enter status</td>
             </tr>
             <tr>
                 <td><c:out value="${specialityResultDto.firstName}"/></td>
@@ -180,7 +181,9 @@
                 <c:forEach var="mark" items="${specialityResultDto.userExams.values()}">
                     <td><c:out value="${mark}"/></td>
                 </c:forEach>
-            <td><c:out value="${specialityResultDto.totalUserMark}"/></td>
+                <td><c:out value="${specialityResultDto.totalUserMark}"/></td>
+                <td><c:out value="${specialityResultDto.status}"/></td>
+            </tr>
         </c:forEach>
     </table>
 </div>

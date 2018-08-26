@@ -68,6 +68,7 @@ public class ShowSpecialityRatingCommand implements Command {
         specialityResultDto.setSpecialityPassmark(speciality.getPassmark());
         specialityResultDto.setUserExams(createSubjectMarkMap(userExams));
         specialityResultDto.setTotalUserMark(calculateTotalMark(userExams));
+        specialityResultDto.setStatus(speciality.getStatus());
 
         return specialityResultDto;
     }
