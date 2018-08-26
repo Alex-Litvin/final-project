@@ -39,7 +39,7 @@ public class ShowSpecialityRatingCommand implements Command {
 
         List<Exam> userExams = examService.findAllExamsByUserIds(userIds);
 
-        List<Exam> requiredExams = specialityService.findRequiredExamsById(specialityId);
+//        List<Exam> requiredExams = specialityService.findRequiredExamsById(specialityId);
 
         List<SpecialityResultDto> specialityResultDtos = users.stream()
                 .map(u -> createSpecialityRequestDto(u, sortedUserExams(user, userExams), speciality, university))
