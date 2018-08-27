@@ -13,6 +13,7 @@ public class Exam {
     private Long id;
     private Long userId;
     private Long subjectId;
+    private String title;
     private Integer mark;
     private List<User> users;
     private List<ExamResult> examResults;

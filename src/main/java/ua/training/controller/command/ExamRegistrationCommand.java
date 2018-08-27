@@ -38,6 +38,7 @@ public class ExamRegistrationCommand implements Command {
         Exam exam = new Exam();
         exam.setUserId(user.getId());
         exam.setSubjectId(subjectId);
+        exam.setTitle(subjectService.getSubjectById(subjectId).name());
 
         if (!isAvailableRegistration(user.getId())) {
             request.setAttribute("examCount", "You already register for max exams!");

@@ -42,8 +42,10 @@ public class ShowSpecialityRatingCommand implements Command {
 //        List<Exam> requiredExams = specialityService.findRequiredExamsById(specialityId);
 
         List<SpecialityResultDto> specialityResultDtos = users.stream()
-                .map(u -> createSpecialityRequestDto(u, sortedUserExams(user, userExams), speciality, university))
+                .map(u -> createSpecialityRequestDto(u, sortedUserExams(u, userExams), speciality, university))
                 .collect(Collectors.toList());
+
+        specialityResultDtos.forEach(System.out::println);
 
         request.setAttribute("specialityResultDtos", specialityResultDtos);
 
@@ -53,7 +55,7 @@ public class ShowSpecialityRatingCommand implements Command {
     private List<Exam> sortedUserExams(User user, List<Exam> exams) {
         return exams.stream()
                 .filter(exam -> exam.getUserId().equals(user.getId()))
-                .sorted(Comparator.comparing(Exam::getSubjectId))
+                .sorted(Comparator.comparing(Exam::getTitle))
                 .collect(Collectors.toList());
     }
 
@@ -66,7 +68,7 @@ public class ShowSpecialityRatingCommand implements Command {
         specialityResultDto.setUniversityTitle(university.getTitle());
         specialityResultDto.setMaxStudentCount(speciality.getMaxStudentCount());
         specialityResultDto.setSpecialityPassmark(speciality.getPassmark());
-        specialityResultDto.setUserExams(createSubjectMarkMap(userExams));
+        specialityResultDto.setUserExams(userExams);
         specialityResultDto.setTotalUserMark(calculateTotalMark(userExams));
         specialityResultDto.setStatus(speciality.getStatus());
 
@@ -77,11 +79,5 @@ public class ShowSpecialityRatingCommand implements Command {
         return userExams.stream()
                 .mapToInt(Exam::getMark)
                 .sum();
-    }
-
-    private Map<Subject, Integer> createSubjectMarkMap(List<Exam> exams) {
-        return exams.stream()
-                .collect(Collectors.toMap(exam ->
-                        subjectService.getSubjectById(exam.getSubjectId()), Exam::getMark));
     }
 }

@@ -151,21 +151,81 @@
     </c:forEach>
 </table>
 
-<h1>Show all students</h1>
+<%--<h1>Show all students</h1>--%>
+<%--<div>--%>
+    <%--<form method="get" action="${pageContext.request.contextPath}/main">--%>
+        <%--<input type="hidden" name="command" value="showAllStudents">--%>
+        <%--<input type="submit" name="button" value="Show">--%>
+    <%--</form>--%>
+    <%--<table>--%>
+        <%--<tr>--%>
+            <%--<th>Id</th>--%>
+            <%--<th>First name</th>--%>
+            <%--<th>Middle name</th>--%>
+            <%--<th>Second name</th>--%>
+            <%--<th>Status</th>--%>
+            <%--<th>Mobile</th>--%>
+            <%--<th>Email</th>--%>
+        <%--</tr>--%>
+        <%--<c:forEach var="user" items="${requestScope.users}">--%>
+            <%--<tr>--%>
+                <%--<td><c:out value="${user.id}"/></td>--%>
+                <%--<td><c:out value="${user.firstName}"/></td>--%>
+                <%--<td><c:out value="${user.middleName}"/></td>--%>
+                <%--<td><c:out value="${user.secondName}"/></td>--%>
+                <%--<td><c:out value="${user.status}"/></td>--%>
+                <%--<td><c:out value="${user.mobile}"/></td>--%>
+                <%--<td><c:out value="${user.email}"/></td>--%>
+            <%--</tr>--%>
+        <%--</c:forEach>--%>
+    <%--</table>--%>
+<%--</div>--%>
+
+<h1>Show students</h1>
 <div>
     <form method="get" action="${pageContext.request.contextPath}/main">
         <input type="hidden" name="command" value="showAllStudents">
         <input type="submit" name="button" value="Show">
     </form>
-    <table>
-        <tr>
-            <th>First name</th>
-            <th>Middle name</th>
-            <th>Second name</th>
-            <th>Email</th>
-            <c:forEach var="">
-        </tr>
-    </table>
+    <form method="post" action="${pageContext.request.contextPath}/main">
+    <label>
+        <select name="userId">
+            <c:forEach var="user" items="${requestScope.users}">
+                <jsp:useBean id="user" class="ua.training.model.entity.User"/>
+                <option value="${user.id}">
+                    <c:out value="${user.firstName} "/>
+                    <c:out value="${user.middleName} "/>
+                    <c:out value="${user.secondName}"/>
+                </option>
+            </c:forEach>
+        </select>
+    </label><br>
+        <input type="hidden" name="command" value="showStudentExams">
+        <p><input type="submit" name="button" value="Submit"></p>
+    </form>
+</div>
+
+<h1>Add student exam mark</h1>
+<div>
+    <form method="post" action="${pageContext.request.contextPath}/main">
+        <input type="hidden" name="userId" value="${requestScope.userId}">
+        <label>
+            <select name="examTitle">
+                <c:forEach var="exam" items="${requestScope.userExams}">
+                    <jsp:useBean id="exam" class="ua.training.model.entity.Exam"/>
+                    <option value="${exam.title}">
+                        <c:out value="${exam.title}"/>
+                    </option>
+                </c:forEach>
+            </select>
+        </label>
+        <label>
+            <input type="number" min="0" max="100" name="mark">
+        </label>
+        <input type="hidden" name="command" value="addExamMark">
+        <input type="submit" name="button" value="Submit">
+    </form>
+    <c:out value="${requestScope.examMark}"/>
 </div>
 </body>
 </html>

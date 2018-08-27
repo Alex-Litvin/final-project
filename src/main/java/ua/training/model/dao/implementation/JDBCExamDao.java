@@ -1,10 +1,8 @@
 package ua.training.model.dao.implementation;
 
-import ua.training.model.dao.mapper.SpecialityMapper;
 import ua.training.model.entity.Exam;
 import ua.training.model.dao.ExamDao;
 import ua.training.model.dao.mapper.ExamMapper;
-import ua.training.model.entity.Speciality;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,10 +17,11 @@ public class JDBCExamDao implements ExamDao {
 
     @Override
     public Long addExam(Exam exam) {
-        String query = "INSERT INTO exam (user_id, subject_id) VALUES (?, ?)";
+        String query = "INSERT INTO exam (user_id, subject_id, title) VALUES (?, ?, ?)";
         try(PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setLong(1, exam.getUserId());
             ps.setLong(2, exam.getSubjectId());
+            ps.setString(3, exam.getTitle());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             rs.next();
@@ -108,5 +107,20 @@ public class JDBCExamDao implements ExamDao {
             throw new RuntimeException();
         }
         return exams;
+    }
+
+    @Override
+    public boolean update(Exam exam) {
+        String query = "UPDATE exam SET mark = ? WHERE user_id = ? AND title = ?";
+        try(PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, exam.getMark());
+            ps.setLong(2, exam.getUserId());
+            ps.setString(3, exam.getTitle());
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 }

@@ -62,6 +62,7 @@ public class JDBCUserDao implements UserDao {
     @Override
     public List<User> findAll() {
         String query = "SELECT * FROM user";
+        //user_speciality u on user.id = u.user_id
         List<User> users = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();

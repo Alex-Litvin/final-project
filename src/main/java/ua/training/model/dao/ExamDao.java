@@ -13,4 +13,6 @@ public interface ExamDao {
     List<Exam> findAllExamsByUserId(Long userId);
 
     List<Exam> findAllExamsByUserIds(List<Long> userIds);
+
+    boolean update(Exam exam);
 }

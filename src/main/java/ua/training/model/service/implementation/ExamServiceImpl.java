@@ -17,6 +17,11 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
+    public boolean update(Exam exam) {
+        return examDao.update(exam);
+    }
+
+    @Override
     public Long findExamIdByUserIdAndSubjectId(Long userId, Long subjectId) {
         return examDao.findExamIdByUserIdAndSubjectId(userId, subjectId);
     }

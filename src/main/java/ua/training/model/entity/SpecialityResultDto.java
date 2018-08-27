@@ -20,7 +20,7 @@ public class SpecialityResultDto {
     private String universityTitle;
     private Integer maxStudentCount;
     private Integer specialityPassmark;
-    private Map<Subject, Integer> userExams;
+    private List<Exam> userExams;
     private Integer totalUserMark;
     private EnterSpecialityStatus status;
 }
