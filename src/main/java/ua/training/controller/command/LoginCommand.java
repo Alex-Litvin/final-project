@@ -30,7 +30,7 @@ public class LoginCommand implements Command {
                 if (currentUser.getRole().equals(Role.USER)) {
                     return "/view/userbasic.jsp";
                 } else {
-                    return "/view/main.jsp";
+                    return "/view/adminbasic.jsp";
                 }
             }
         }

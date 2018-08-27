@@ -44,6 +44,11 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
     @Override
+    public Long checkIsExists(String title) {
+        return universityDao.checkIsExists(title);
+    }
+
+    @Override
     public List<University> findAllUniversities() {
         return universityDao.findAllUniversities();
     }

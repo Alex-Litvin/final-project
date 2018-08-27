@@ -21,15 +21,17 @@ public class JDBCSpecialityDao implements SpecialityDao {
 
     @Override
     public Long createSpeciality(Speciality speciality) {
-        String query = "INSERT INTO speciality (title, max_student_count) VALUES (?, ?)";
+        String query = "INSERT INTO speciality (title, max_student_count, passmark) VALUES (?, ?, ?)";
         try(PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, speciality.getTitle());
             ps.setInt(2, speciality.getMaxStudentCount());
+            ps.setInt(3, speciality.getPassmark());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             rs.next();
             return rs.getLong(1);
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException();
         }
     }

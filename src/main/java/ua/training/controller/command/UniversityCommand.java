@@ -39,7 +39,7 @@ public class UniversityCommand implements Command {
         request.setAttribute("subjects", subjects);
         request.setAttribute("universities", universities);
 
-        return "/view/universities.jsp";
+        return "/view/adminbasic.jsp";
     }
 
     private void addUniversity(HttpServletRequest request) {

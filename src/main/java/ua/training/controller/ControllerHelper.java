@@ -23,21 +23,26 @@ class ControllerHelper {
         commandMap.put("logout", new LogoutCommand());
         commandMap.put("localization", new LocalizationCommand());
 //        commandMap.put("showUniversities", new UniversityCommand());
-        commandMap.put("editUniversity", new UniversityCommand());
-        commandMap.put("deleteUniversity", new UniversityCommand());
-        commandMap.put("addUniversity", new UniversityCommand());
+//        commandMap.put("editUniversity", new UniversityCommand());
+//        commandMap.put("deleteUniversity", new UniversityCommand());
+        commandMap.put("addUniversity", new AddUniversityCommand());
 //        commandMap.put("showDepartmentCommand", new SpecialityCommand());
         commandMap.put("addSpeciality", new AddSpecialityCommand());
         commandMap.put("deleteSpeciality", new DeleteSpecialityCommand());
         commandMap.put("showApplicant", new ShowApplicantsCommand());
         commandMap.put("showApplicantPagination", new ShowApplicantsCommand());
         commandMap.put("registerForExam", new ExamRegistrationCommand());
-        commandMap.put("showUniversities", new ShowUniversityCommand());
+        commandMap.put("showUniversities", new ShowUniversitiesCommand());
         commandMap.put("showDepartmentCommand", new ShowSpecialityCommand());
         commandMap.put("requestForSpeciality", new AddSpecialityRequestCommand());
         commandMap.put("showAvailableSpeciality", new ShowAvailableSpeciality());
         commandMap.put("showSpecialityRating", new ShowSpecialityRatingCommand());
         commandMap.put("showSpecialityRequest", new ShowSpecialityRequestCommand());
+        commandMap.put("addUniversityCommand", new AddUniversityCommand());
+        commandMap.put("deleteUniversity", new DeleteUniversityCommand());
+//        commandMap.put("showSubjects", new ShowSubjectsCommand());
+        commandMap.put("showUniversitiesSubjects", new ShowUniversitiesSubjectsCommand());
+        commandMap.put("showAllStudents", new ShowAllStudents());
     }
 
     Command getCommand(HttpServletRequest request) {

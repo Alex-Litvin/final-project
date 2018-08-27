@@ -6,6 +6,7 @@ import ua.training.model.dao.UserDao;
 import ua.training.model.entity.enums.Role;
 import ua.training.model.service.UserService;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -44,5 +45,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) {
         return userDao.findById(id);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userDao.findAll();
     }
 }

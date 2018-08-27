@@ -11,6 +11,7 @@ public interface UniversityService {
     Long createUniversitySpeciality(Long universityId, Long specialityId);
     University findUniversityById(Long id);
     University findUniversityBySpecialityId(Long specialityId);
+    Long checkIsExists(String title);
     List<University> findAllUniversities();
     List<University> getAllUniversitiesWithSpecialities();
 }

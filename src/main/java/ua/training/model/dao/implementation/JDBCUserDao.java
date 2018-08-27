@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,25 +61,23 @@ public class JDBCUserDao implements UserDao {
 
     @Override
     public List<User> findAll() {
-        return null;
+        String query = "SELECT * FROM user";
+        List<User> users = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            UserMapper userMapper = new UserMapper();
+            while (rs.next()) {
+                users.add(userMapper.extractFromResultSet(rs));
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 
-    @Override
-    public void update(User entity) {
 
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }
-
-    @Override
-    public void close() {
-
-    }
-
-    @Override
+        @Override
     public Optional<User> findByEmail(String email) {
         String query = "SELECT * FROM user WHERE email = ?";
         Optional<User> result = Optional.empty();

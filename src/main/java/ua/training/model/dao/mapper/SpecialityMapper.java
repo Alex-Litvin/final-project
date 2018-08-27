@@ -14,7 +14,7 @@ public class SpecialityMapper {
         speciality.setMaxStudentCount(rs.getInt("max_student_count"));
         speciality.setTitle(rs.getString("title"));
         speciality.setPassmark(rs.getInt("passmark"));
-        speciality.setStatus(EnterSpecialityStatus.valueOf(rs.getString("entered")));
+//        speciality.setStatus(EnterSpecialityStatus.valueOf(rs.getString("entered")));
 
         return speciality;
     }

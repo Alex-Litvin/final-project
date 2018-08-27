@@ -13,4 +13,6 @@ public interface UniversityDao {
     Long update(University university);
 
     University findUniversityBySpecialityId(Long specialityId);
+
+    Long checkIsExists(String title);
 }

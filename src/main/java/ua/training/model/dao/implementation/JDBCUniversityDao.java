@@ -125,4 +125,20 @@ public class JDBCUniversityDao implements UniversityDao {
         return university;
 
     }
+
+    @Override
+    public Long checkIsExists(String title) {
+        String query = "SELECT COUNT(id) AS total FROM university WHERE title = ?";
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, title);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getLong("total");
+            }
+            throw new SQLException();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
 }

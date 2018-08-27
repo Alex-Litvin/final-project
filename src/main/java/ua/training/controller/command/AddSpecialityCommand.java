@@ -15,6 +15,9 @@ import java.util.HashSet;
 import java.util.List;
 
 public class AddSpecialityCommand implements Command {
+
+    private static final int REQUIRED_COUNT_SUBJECTS = 3;
+
     private SubjectService subjectService = ServiceFactoryImpl.getInstance().getSubjectService();
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
     private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
@@ -24,6 +27,7 @@ public class AddSpecialityCommand implements Command {
         Long universityId = Long.parseLong(request.getParameter("universityId"));
         String title = request.getParameter("title");
         Integer maxStudentCount = Integer.parseInt(request.getParameter("maxStudentCount"));
+        Integer passmark = Integer.parseInt(request.getParameter("passmark"));
         String firstSubject = request.getParameter("firstSubject").toUpperCase();
         String secondSubject = request.getParameter("secondSubject").toUpperCase();
         String thirdSubject = request.getParameter("thirdSubject").toUpperCase();
@@ -31,13 +35,20 @@ public class AddSpecialityCommand implements Command {
         List<String> subjects = Arrays.asList(firstSubject, secondSubject, thirdSubject);
         if (!checkUniqueness(subjects)) {
             request.setAttribute("notUnique", "Subjects must be unique!");
-            return "/?command=showUniversities";
+            return "/view/adminbasic.jsp";
         }
+
+        if (isSpecialityAlreadyExists(universityId, title)) {
+            request.setAttribute("specialityExists", "Such speciality already exists!");
+            return "/view/adminbasic.jsp";
+        }
+
         List<Long> subjectIds = subjectService.getIdsByNames(subjects);
 
         Speciality speciality = new Speciality();
         speciality.setTitle(title);
         speciality.setMaxStudentCount(maxStudentCount);
+        speciality.setPassmark(passmark);
 
         Long specialityId = specialityService.createSpeciality(speciality);
 
@@ -47,10 +58,16 @@ public class AddSpecialityCommand implements Command {
 
         request.setAttribute("message", "New speciality was added!");
 
-        return "/?command=showUniversities";
+        return "/view/adminbasic.jsp";
     }
 
     private boolean checkUniqueness(List<String> subjects) {
-        return new HashSet<>(subjects).size() == 3;
+        return new HashSet<>(subjects).size() == REQUIRED_COUNT_SUBJECTS;
+    }
+
+    private boolean isSpecialityAlreadyExists(Long universityId,String title) {
+        return specialityService.findAllSpecialitiesByUniversityId(universityId).stream()
+                .map(Speciality::getTitle)
+                .anyMatch(title::equals);
     }
 }

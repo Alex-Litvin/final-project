@@ -153,23 +153,22 @@
 </div>
 <div>
     <table>
+        <jsp:useBean id="specialityResultDto" class="ua.training.model.entity.SpecialityResultDto"/>
+        <jsp:useBean id="subjectMarkMap" class="java.util.HashMap"/>
+        <tr>
+            <td>First name</td>
+            <td>Middle name</td>
+            <td>Last name</td>
+            <td>University</td>
+            <td>Speciality</td>
+            <td>Max student count</td>
+            <td>Passmark</td>
+            <c:forEach var="subject" items="${specialityResultDto.userExams.keySet()}">
+                <td><c:out value="${subject}"/></td>
+            </c:forEach>
+            <td>Total mark</td>
+        </tr>
         <c:forEach var="specialityResultDto" items="${requestScope.specialityResultDtos}">
-            <jsp:useBean id="specialityResultDto" class="ua.training.model.entity.SpecialityResultDto"/>
-            <jsp:useBean id="subjectMarkMap" class="java.util.HashMap"/>
-            <tr>
-                <td>First name</td>
-                <td>Middle name</td>
-                <td>Last name</td>
-                <td>University</td>
-                <td>Speciality</td>
-                <td>Max student count</td>
-                <td>Passmark</td>
-                <c:forEach var="mark" items="${specialityResultDto.userExams.keySet()}">
-                    <td><c:out value="${mark}"/></td>
-                </c:forEach>
-                <td>Total mark</td>
-                <td>Enter status</td>
-            </tr>
             <tr>
                 <td><c:out value="${specialityResultDto.firstName}"/></td>
                 <td><c:out value="${specialityResultDto.middleName}"/></td>
