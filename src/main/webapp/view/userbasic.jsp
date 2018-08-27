@@ -154,20 +154,20 @@
 <div>
     <table>
         <tr>
-            <td>First name</td>
-            <td>Middle name</td>
-            <td>Last name</td>
-            <td>University</td>
-            <td>Speciality</td>
-            <td>Max student count</td>
-            <td>Passmark</td>
-            <c:forEach var="specialityResultDto" items="${requestScope.specialityResultDtos}">
+            <th>First name</th>
+            <th>Middle name</th>
+            <th>Last name</th>
+            <th>University</th>
+            <th>Speciality</th>
+            <th>Max student count</th>
+            <th>Passmark</th>
+            <c:forEach var="specialityResultDto" items="${requestScope.specialityResultDtos}" begin="0" end="0">
                 <jsp:useBean id="specialityResultDto" class="ua.training.model.entity.SpecialityResultDto"/>
                 <c:forEach var="exam" items="${specialityResultDto.userExams}">
-                    <td><c:out value="${exam.title}"/></td>
+                    <th><c:out value="${exam.title}"/></th>
                 </c:forEach>
             </c:forEach>
-            <td>Total mark</td>
+            <th>Total mark</th>
         </tr>
         <c:forEach var="specialityResultDto" items="${requestScope.specialityResultDtos}">
             <tr>
