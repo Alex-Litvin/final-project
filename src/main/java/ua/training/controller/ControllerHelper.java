@@ -38,9 +38,11 @@ class ControllerHelper {
         commandMap.put("deleteUniversity", new DeleteUniversityCommand());
 //        commandMap.put("showSubjects", new ShowSubjectsCommand());
         commandMap.put("showUniversitiesSubjects", new ShowUniversitiesSubjectsCommand());
-        commandMap.put("showAllStudents", new ShowAllStudents());
-        commandMap.put("showStudentExams", new ShowStudentExams());
+        commandMap.put("showAllStudents", new ShowAllStudentsCommand());
+        commandMap.put("showStudentExams", new ShowStudentExamsCommand());
         commandMap.put("addExamMark", new AddExamMarkCommand());
+        commandMap.put("showSpecialitiesByUniversity", new ShowSpecialitiesByUniversity());
+        commandMap.put("completeSpecialityRegistration", new CompleteSpecialityRegistrationCommand());
     }
 
     Command getCommand(HttpServletRequest request) {

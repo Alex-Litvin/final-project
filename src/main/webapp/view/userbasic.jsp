@@ -168,6 +168,7 @@
                 </c:forEach>
             </c:forEach>
             <th>Total mark</th>
+            <th>Enter status</th>
         </tr>
         <c:forEach var="specialityResultDto" items="${requestScope.specialityResultDtos}">
             <tr>
@@ -182,6 +183,7 @@
                     <td><c:out value="${exam.mark}"/></td>
                 </c:forEach>
                 <td><c:out value="${specialityResultDto.totalUserMark}"/></td>
+                <td><c:out value="${specialityResultDto.status.name().toLowerCase()}"/></td>
             </tr>
         </c:forEach>
     </table>

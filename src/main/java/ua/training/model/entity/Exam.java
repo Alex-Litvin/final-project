@@ -16,5 +16,4 @@ public class Exam {
     private String title;
     private Integer mark;
     private List<User> users;
-    private List<ExamResult> examResults;
 }

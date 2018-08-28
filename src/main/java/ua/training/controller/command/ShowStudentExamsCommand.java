@@ -1,8 +1,7 @@
 package ua.training.controller.command;
 
-import ua.training.model.entity.User;
+import ua.training.model.entity.Exam;
 import ua.training.model.service.ExamService;
-import ua.training.model.service.UserService;
 import ua.training.model.service.implementation.ServiceFactoryImpl;
 
 import javax.servlet.ServletException;
@@ -11,15 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ShowAllStudents implements Command {
+public class ShowStudentExamsCommand implements Command {
 
-    private UserService userService = ServiceFactoryImpl.getInstance().getUserService();
+    private ExamService examService = ServiceFactoryImpl.getInstance().getExamService();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        List<User> users = userService.findAll();
+        Long userId = Long.parseLong(request.getParameter("userId"));
+        List<Exam> userExams = examService.findAllExamsByUserId(userId);
 
-        request.setAttribute("users", users);
+        request.setAttribute("userId", userId);
+        request.setAttribute("userExams", userExams);
 
         return "/view/adminbasic.jsp";
     }

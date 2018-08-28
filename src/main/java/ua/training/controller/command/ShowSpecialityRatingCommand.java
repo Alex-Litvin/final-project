@@ -1,9 +1,9 @@
 package ua.training.controller.command;
 
 import ua.training.model.entity.*;
-import ua.training.model.entity.enums.EnterSpecialityStatus;
-import ua.training.model.entity.enums.Subject;
-import ua.training.model.service.*;
+import ua.training.model.service.ExamService;
+import ua.training.model.service.SpecialityService;
+import ua.training.model.service.UniversityService;
 import ua.training.model.service.implementation.ServiceFactoryImpl;
 
 import javax.servlet.ServletException;
@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ShowSpecialityRatingCommand implements Command {
@@ -20,11 +19,9 @@ public class ShowSpecialityRatingCommand implements Command {
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
     private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
     private ExamService examService = ServiceFactoryImpl.getInstance().getExamService();
-    private SubjectService subjectService = ServiceFactoryImpl.getInstance().getSubjectService();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        User user = (User) request.getSession().getAttribute("user");
         Long specialityId = Long.parseLong(request.getParameter("specialityId"));
 
         Speciality speciality = specialityService.findById(specialityId);
@@ -38,8 +35,6 @@ public class ShowSpecialityRatingCommand implements Command {
                 .collect(Collectors.toList());
 
         List<Exam> userExams = examService.findAllExamsByUserIds(userIds);
-
-//        List<Exam> requiredExams = specialityService.findRequiredExamsById(specialityId);
 
         List<SpecialityResultDto> specialityResultDtos = users.stream()
                 .map(u -> createSpecialityRequestDto(u, sortedUserExams(u, userExams), speciality, university))
@@ -70,7 +65,7 @@ public class ShowSpecialityRatingCommand implements Command {
         specialityResultDto.setSpecialityPassmark(speciality.getPassmark());
         specialityResultDto.setUserExams(userExams);
         specialityResultDto.setTotalUserMark(calculateTotalMark(userExams));
-        specialityResultDto.setStatus(speciality.getStatus());
+        specialityResultDto.setStatus(specialityService.getEnterSpecialityStatus(user.getId(), speciality.getId()));
 
         return specialityResultDto;
     }

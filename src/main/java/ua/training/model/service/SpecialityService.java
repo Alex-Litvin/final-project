@@ -3,6 +3,8 @@ package ua.training.model.service;
 import ua.training.model.entity.Exam;
 import ua.training.model.entity.Speciality;
 import ua.training.model.entity.User;
+import ua.training.model.entity.enums.EnterSpecialityStatus;
+import ua.training.model.entity.enums.SpecialityStatus;
 
 import java.util.List;
 
@@ -23,5 +25,8 @@ public interface SpecialityService {
     Long countSpecialityRequestsByUserId(Long userId);
     List<Speciality> findAllSpecialitiesByUserId(Long userId);
     List<Exam> findRequiredExamsById(Long specialityId);
+    EnterSpecialityStatus getEnterSpecialityStatus(Long userId, Long specialityId);
+    void setEnterSpecialityStatus(List<Long> userIds, Long specialityId, EnterSpecialityStatus status);
+    void updateStatus(Long specialityId, SpecialityStatus status);
 
 }

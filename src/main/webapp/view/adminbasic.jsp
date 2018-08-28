@@ -227,5 +227,42 @@
     </form>
     <c:out value="${requestScope.examMark}"/>
 </div>
+
+<h1>Complete speciality registration</h1>
+<div>
+    <form method="get" action="${pageContext.request.contextPath}/main">
+        <input type="hidden" name="command" value="showUniversities">
+        <input type="submit" name="button" value="Show universities">
+    </form>
+    <form method="get" action="${pageContext.request.contextPath}/main">
+        <label>
+            <select name="universityId">
+                <c:forEach var="university" items="${requestScope.universities}">
+                    <option value="${university.id}">
+                        <c:out value="${university.title}"/>
+                    </option>
+                </c:forEach>
+            </select>
+        </label><br>
+        <input type="hidden" name="command" value="showSpecialitiesByUniversity">
+        <input type="submit" name="button" value="Show specialities">
+    </form><br>
+</div>
+
+<div>
+    <form method="get" action="${pageContext.request.contextPath}/main">
+        <label>
+            <select name="specialityId">
+                <c:forEach var="speciality" items="${requestScope.specialitiesByUniversity}">
+                    <option value="${speciality.id}">
+                        <c:out value="${speciality.title}"/>
+                    </option>
+                </c:forEach>
+            </select>
+        </label><br>
+        <input type="hidden" name="command" value="completeSpecialityRegistration">
+        <input type="submit" name="button" value="Submit">
+    </form>
+</div>
 </body>
 </html>

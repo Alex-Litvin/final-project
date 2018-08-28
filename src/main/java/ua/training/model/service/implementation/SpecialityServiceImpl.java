@@ -1,11 +1,13 @@
 package ua.training.model.service.implementation;
 
-import ua.training.model.entity.Exam;
-import ua.training.model.entity.Speciality;
-import ua.training.model.entity.User;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.SpecialityDao;
 import ua.training.model.dao.SubjectDao;
+import ua.training.model.entity.Exam;
+import ua.training.model.entity.Speciality;
+import ua.training.model.entity.User;
+import ua.training.model.entity.enums.EnterSpecialityStatus;
+import ua.training.model.entity.enums.SpecialityStatus;
 import ua.training.model.service.SpecialityService;
 
 import java.util.List;
@@ -95,5 +97,20 @@ public  class SpecialityServiceImpl implements SpecialityService {
     @Override
     public List<Exam> findRequiredExamsById(Long specialityId) {
         return specialityDao.findRequiredExamsById(specialityId);
+    }
+
+    @Override
+    public EnterSpecialityStatus getEnterSpecialityStatus(Long userId, Long specialityId) {
+        return specialityDao.getEnterSpecialityStatus(userId, specialityId);
+    }
+
+    @Override
+    public void setEnterSpecialityStatus(List<Long> userIds, Long specialityId, EnterSpecialityStatus status) {
+        specialityDao.setEnterSpecialityStatus(userIds, specialityId, status);
+    }
+
+    @Override
+    public void updateStatus(Long specialityId, SpecialityStatus status) {
+        specialityDao.updateStatus(specialityId, status);
     }
 }
