@@ -1,8 +1,8 @@
 package ua.training.model.dao.implementation;
 
-import ua.training.model.entity.User;
 import ua.training.model.dao.UserDao;
 import ua.training.model.dao.mapper.UserMapper;
+import ua.training.model.entity.User;
 import ua.training.model.entity.enums.Role;
 
 import java.sql.Connection;
@@ -23,16 +23,15 @@ public class JDBCUserDao implements UserDao {
     @Override
     public void create(User entity) {
         String query = "INSERT INTO user (first_name, second_name, middle_name," +
-                "role, password, mobile, email, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "role, password, email, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, entity.getFirstName());
             ps.setString(2, entity.getSecondName());
             ps.setString(3, entity.getMiddleName());
             ps.setString(4, entity.getRole().name());
             ps.setString(5, entity.getPassword());
-            ps.setString(6, entity.getMobile());
-            ps.setString(7, entity.getEmail());
-            ps.setString(8, entity.getStatus().name());
+            ps.setString(6, entity.getEmail());
+            ps.setString(7, entity.getStatus().name());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

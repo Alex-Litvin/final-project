@@ -22,16 +22,15 @@ public class RegistrationCommand implements Command {
         String middleName = request.getParameter("middleName");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
-        String mobile = request.getParameter("mobile");
 
-        boolean isValid = Validator.checkInputParameters(firstName, secondName, middleName, password, email, mobile);
+        boolean isValid = Validator.checkInputParameters(firstName, secondName, middleName, password, email);
 
         if (!isValid) {
             request.getSession().setAttribute("error", "Some field is empty!");
             return "/view/registration.jsp";
         }
-        if (userService.checkEmail(email) || userService.checkMobile(mobile)) {
-            request.getSession().setAttribute("error", "User with such email or mobile already exists!");
+        if (userService.checkEmail(email)) {
+            request.getSession().setAttribute("error", "User with such email already exists!");
             return "/view/registration.jsp";
         }
 
@@ -41,7 +40,6 @@ public class RegistrationCommand implements Command {
                 .middleName(middleName)
                 .role(Role.USER)
                 .password(password)
-                .mobile(mobile)
                 .email(email)
                 .status(Status.ACTIVE)
                 .build();

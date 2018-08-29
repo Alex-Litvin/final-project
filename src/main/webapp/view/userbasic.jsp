@@ -15,7 +15,6 @@
     <td><c:out value="${user.middleName}"/></td>
     <td><c:out value="${user.secondName}"/></td>
     <td><c:out value="${user.email}"/></td>
-    <td><c:out value="${user.mobile}"/></td>
     <td><c:out value="${user.exams}"/></td>
 </div>
 

@@ -22,7 +22,6 @@ public class User {
     private Status status;
     private String password;
     private String email;
-    private String mobile;
     private List<Exam> exams;
     private List<Speciality> specialities;
 }

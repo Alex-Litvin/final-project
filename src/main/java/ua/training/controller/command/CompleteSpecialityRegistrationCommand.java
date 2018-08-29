@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -45,6 +46,8 @@ public class CompleteSpecialityRegistrationCommand implements Command {
 
         List<Long> enteredUserIds = userIdExamMarks.entrySet().stream()
                 .filter(checkExamResults(speciality))
+                .sorted(sortByTotalExamResults())
+                .limit(speciality.getMaxStudentCount())
                 .map(Map.Entry::getKey)
                 .collect(toList());
 
@@ -52,6 +55,13 @@ public class CompleteSpecialityRegistrationCommand implements Command {
         specialityService.setEnterSpecialityStatus(enteredUserIds, specialityId, YES);
 
         return "/view/adminbasic.jsp";
+    }
+
+    private Comparator<Map.Entry<Long, List<Integer>>> sortByTotalExamResults() {
+        Comparator<Map.Entry<Long, List<Integer>>> comparingByTotalResultFromMinToMax = Comparator.comparing(userIdExamMark -> userIdExamMark.getValue().stream()
+                .reduce(0, (mark1, mark2) -> mark1 + mark2));
+
+        return comparingByTotalResultFromMinToMax.reversed();
     }
 
     private Predicate<Map.Entry<Long, List<Integer>>> checkExamResults(Speciality speciality) {

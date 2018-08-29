@@ -11,12 +11,8 @@ public class ConnectionPoolHolder {
         if (dataSource == null){
             synchronized (ConnectionPoolHolder.class) {
                 if (dataSource == null) {
-                    try {
-                        Class.forName("com.mysql.jdbc.Driver");
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
                     BasicDataSource ds = new BasicDataSource();
+                    ds.setDriverClassName("com.mysql.jdbc.Driver");
                     ds.setUrl("jdbc:mysql://localhost:3306/campaign?serverTimezone=UTC");
                     ds.setUsername("root");
                     ds.setPassword("nonstop$2018");

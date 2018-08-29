@@ -1,8 +1,8 @@
 package ua.training.model.dao.implementation;
 
-import ua.training.model.entity.Exam;
 import ua.training.model.dao.ExamDao;
 import ua.training.model.dao.mapper.ExamMapper;
+import ua.training.model.entity.Exam;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -101,12 +101,11 @@ public class JDBCExamDao implements ExamDao {
             while (rs.next()) {
                 exams.add(mapper.extractFromResultSet(rs));
             }
-
+        return exams;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return exams;
     }
 
     @Override

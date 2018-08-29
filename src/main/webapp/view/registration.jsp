@@ -12,7 +12,6 @@
     <label><input type="text" required maxlength="60" name="firstName"></label>First name<br>
     <label><input type="text" required maxlength="60" name="middleName"></label>Middle name<br>
     <label><input type="text" required maxlength="60" name="secondName"></label>Second name<br>
-    <label><input type="text" required maxlength="60" name="mobile"></label>Mobile<br>
     <label><input type="email" required maxlength="60" name="email" pattern="^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$"></label>Email<br>
     <label><input type="text" required maxlength="60" name="password"></label>Password<br>
     <input type="hidden" name="command" value="registration">
