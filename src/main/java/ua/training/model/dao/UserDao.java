@@ -11,7 +11,6 @@ public interface UserDao {
     boolean userIsExist(String email, String password);
     Role getRoleByEmailAndPassword(String email, String password);
     boolean checkEmail(String email);
-    boolean checkMobile(String mobile);
     void create(User user);
     User findById(Long id);
     List<User> findAll();

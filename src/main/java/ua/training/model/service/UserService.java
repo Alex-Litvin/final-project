@@ -11,7 +11,6 @@ public interface UserService {
     Optional<User> findByEmail(String email);
     boolean userIsExist(String email, String password);
     boolean checkEmail(String email);
-    boolean checkMobile(String mobile);
     Role getRoleByEmailAndPassword(String email, String password);
     User findById(Long id);
     List<User> findAll();

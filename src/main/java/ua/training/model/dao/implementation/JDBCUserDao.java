@@ -143,19 +143,4 @@ public class JDBCUserDao implements UserDao {
         }
         return false;
     }
-
-    @Override
-    public boolean checkMobile(String mobile) {
-        String query = "SELECT true FROM user WHERE mobile = ? LIMIT 1";
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, mobile);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 }
