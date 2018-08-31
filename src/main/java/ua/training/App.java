@@ -2,15 +2,14 @@ package ua.training;
 
 
 import ua.training.model.entity.Speciality;
-import ua.training.model.dao.DaoFactory;
-import ua.training.model.dao.SpecialityDao;
 import ua.training.model.service.ExamService;
 import ua.training.model.service.SpecialityService;
 import ua.training.model.service.SubjectService;
 import ua.training.model.service.implementation.ServiceFactoryImpl;
 
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class App {
     public static void main(String[] args) throws UnsupportedEncodingException {
@@ -32,8 +31,10 @@ public class App {
 //        SpecialityDao specialityDao = DaoFactory.getInstance().getSpecialityDao();
 //        System.out.println(specialityDao.countSpecialityRequestsByUserId(27L));
 
-        List<Speciality> specialityRequests = specialityService.findAllSpecialitiesByUserId(27L);
-        specialityRequests.forEach(System.out::println);
+//        List<Speciality> specialityRequests = specialityService.findAllSpecialitiesByUserId(27L);
+//        specialityRequests.forEach(System.out::println);
+
+        System.out.println(getUnicodeCodes("Ввійти"));
 
 
     }

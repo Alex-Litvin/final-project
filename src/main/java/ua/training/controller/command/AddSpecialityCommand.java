@@ -35,12 +35,12 @@ public class AddSpecialityCommand implements Command {
         List<String> subjects = Arrays.asList(firstSubject, secondSubject, thirdSubject);
         if (!checkUniqueness(subjects)) {
             request.setAttribute("notUnique", "Subjects must be unique!");
-            return "/view/adminbasic.jsp";
+            return "/admin/specialities.jsp";
         }
 
         if (isSpecialityAlreadyExists(universityId, title)) {
             request.setAttribute("specialityExists", "Such speciality already exists!");
-            return "/view/adminbasic.jsp";
+            return "/admin/specialities.jsp";
         }
 
         List<Long> subjectIds = subjectService.getIdsByNames(subjects);
@@ -58,7 +58,7 @@ public class AddSpecialityCommand implements Command {
 
         request.setAttribute("message", "New speciality was added!");
 
-        return "/view/adminbasic.jsp";
+        return "/admin/specialities.jsp";
     }
 
     private boolean checkUniqueness(List<String> subjects) {

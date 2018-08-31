@@ -1,5 +1,8 @@
 package ua.training.controller.filter;
 
+import ua.training.controller.command.ServletUtil;
+import ua.training.model.entity.enums.Role;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -7,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-//@WebFilter(urlPatterns = "/main")
+@WebFilter(urlPatterns = "/view/*")
 public class SecurityFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -19,21 +22,29 @@ public class SecurityFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession(false);
-        String loginURI = request.getContextPath() + "/view/login.jsp";
-        String registrationURI = request.getContextPath() + "/view/registration.jsp";
+        ServletUtil servletUtil = new ServletUtil();
 
-        boolean loggedIn = session != null && session.getAttribute("user") != null;
-        boolean loginRequest = request.getRequestURI().equals(loginURI) || request.getRequestURI().equals(registrationURI);
+        Role role = servletUtil.getSessionRole(request);
+        String email = servletUtil.getSessionEmail(request);
 
+        String requestURI = request.getRequestURI();
 
-        System.out.println(loggedIn);
-        System.out.println(loginRequest);
+        System.out.println("filter " + (session != null) + "- sess " + (email != null) + " - email " + (role != null) + "-role");
 
-        if (loggedIn || loginRequest) {
-            filterChain.doFilter(request, response);
+        if (session != null && email != null && role != null) {
+
+            System.err.println("AUTHENTICATION SERVLET IN WORK Role = " + role + " email = " + email);
+
+            if (role.getHomePage().equals(requestURI) || role.getAllowedPages().contains(requestURI)) {
+                System.out.println("CONTAIN !!!!!");
+                filterChain.doFilter(req, resp);
+            } else {
+                response.sendRedirect(role.getHomePage());
+            }
         } else {
-            response.sendRedirect(loginURI);
+            response.sendRedirect("/login");
         }
+
     }
 
     @Override
