@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 public class LoginConfirm implements Command {
     private UserService userService = ServiceFactoryImpl.getInstance().getUserService();
@@ -19,19 +18,24 @@ public class LoginConfirm implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        Optional<User> user = userService.findByEmail(email);
         ServletUtil servletUtil = new ServletUtil();
 
-        if (!user.isPresent() || "".equals(email)) {
-            return "redirect:/login.jsp?err=email";
+        if (email == null || "".equals(email)) {
+            return "redirect:/login?error=email";
         }
 
-        if (!user.get().getPassword().equals(password)) {
-            return "redirect:/login.jsp?err=password";
+        if (password == null || "".equals(password)) {
+            return "redirect:/login?error=password";
         }
 
-        servletUtil.setUserEmailRoleToSession(request, user.get().getRole(), user.get().getEmail());
-        String successLoginUrl = "redirect:" + user.get().getRole().getHomePage();
+        User user = userService.findByEmail(email);
+
+        if (user == null || !user.getPassword().equals(password)) {
+            return "redirect:/login?error=authError";
+        }
+
+        servletUtil.setUserEmailRoleToSession(request, user.getRole(), user.getEmail());
+        String successLoginUrl = "redirect:" + user.getRole().getHomePage();
         if (servletUtil.checkUserLogged(request, email)) {
             successLoginUrl += "?logged=true";
         }

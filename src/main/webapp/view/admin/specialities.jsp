@@ -1,11 +1,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Specialities</title>
+    <title>Add speciality</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Add speciality for university</h1>
+
+<c:set var="language" value="${not empty param.language ? param.language :
+        not empty language ? language : pageContext.request.locale}" scope="session"/>
+
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="local"/>
+
+<c:import url="/view/header.jsp" charEncoding="utf-8"/>
+
+<h1><fmt:message key="message.add_speciality"/></h1>
 <div>
     <form method="post" action="${pageContext.request.contextPath}/admin/specialities_add">
         <label>
@@ -19,13 +30,13 @@
         </label><br>
         <label>
             <input type="text" required maxlength="100" name="title">
-        </label>Speciality title<br>
+        </label><fmt:message key="message.speciality_title"/><br>
         <label>
             <input type="number" min="0" required minlength="0" name="maxStudentCount">
-        </label>Max student count<br>
+        </label><fmt:message key="message.max_sudent_count"/><br>
         <label>
             <input type="number" min="0" required minlength="0" name="passmark">
-        </label>Passmark<br>
+        </label><fmt:message key="message.passmark"/><br>
         <label>
             <select name="firstSubject">
                 <c:forEach var="subject" items="${requestScope.subjects}">
@@ -55,9 +66,17 @@
         </label><br>
         <input type="submit" name="button" value="Submit">
     </form>
-    <c:out value="${requestScope.message}"/>
-    <c:out value="${requestScope.notUnique}"/>
-    <c:out value="${requestScope.specialityExists}"/>
+
+    <c:if test="${not empty requestScope.specialityAdded}">
+        <h2><fmt:message key="${requestScope.specialityAdded}"/></h2>
+    </c:if>
+    <c:if test="${not empty requestScope.specialityExists}">
+        <h2><fmt:message key="${requestScope.specialityExists}"/></h2>
+    </c:if>
+    <c:if test="${not empty requestScope.notUniqueSubject}">
+        <h2><fmt:message key="${requestScope.notUniqueSubject}"/></h2>
+    </c:if>
 </div>
+<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp">Menu</a>
 </body>
 </html>

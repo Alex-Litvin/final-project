@@ -1,5 +1,6 @@
-package ua.training.controller.command;
+package ua.training.controller.command.post;
 
+import ua.training.controller.command.Command;
 import ua.training.controller.utility.Validator;
 import ua.training.model.entity.User;
 import ua.training.model.entity.enums.Role;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class RegistrationCommand implements Command {
+public class RegistrationConfirmCommand implements Command {
     private UserService userService = ServiceFactoryImpl.getInstance().getUserService();
 
     @Override
@@ -26,12 +27,11 @@ public class RegistrationCommand implements Command {
         boolean isValid = Validator.checkInputParameters(firstName, secondName, middleName, password, email);
 
         if (!isValid) {
-            request.getSession().setAttribute("error", "Some field is empty!");
-            return "/view/registration.jsp";
+            return "redirect:/registration?error=emptyField";
         }
+
         if (userService.checkEmail(email)) {
-            request.getSession().setAttribute("error", "User with such email already exists!");
-            return "/view/registration.jsp";
+            return "redirect:/registration?error=userExists";
         }
 
         User user = User.builder()
@@ -45,11 +45,8 @@ public class RegistrationCommand implements Command {
                 .build();
 
 
+        userService.create(user);
 
-        ServiceFactoryImpl.getInstance().getUserService().create(user);
-
-        request.getSession().setAttribute("user", user);
-
-        return "/view/main.jsp";
+        return "redirect:/view/user/user_menu.jsp";
     }
 }

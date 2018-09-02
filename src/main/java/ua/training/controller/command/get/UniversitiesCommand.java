@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-
-
 public class UniversitiesCommand implements Command {
 
     private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
@@ -40,12 +38,12 @@ public class UniversitiesCommand implements Command {
 
         universities.forEach(System.out::println);
 
-        return "/universities.jsp";
+        return "/admin/universities.jsp";
     }
 
     private void create(String title, HttpServletRequest request) {
         if (checkUniqueness(title)) {
-            request.setAttribute("universityNotUnique", "Such university already exists!");
+            request.setAttribute("universityExists", "message.university_exists");
             return;
         }
 
@@ -53,19 +51,19 @@ public class UniversitiesCommand implements Command {
         university.setTitle(title);
         universityService.createUniversity(university);
 
-        request.setAttribute("universityAdded", "University was created!");
+        request.setAttribute("universityAdded", "message.university_added");
 
     }
 
     private boolean checkUniqueness(String title) {
-        return universityService.checkIsExists(title).compareTo(0L) > 0;
+        return universityService.checkIsExists(title) > 0;
     }
 
     private void deleteUniversityAndSpecialities(HttpServletRequest request, String universityId) {
         Long id = Long.parseLong(universityId);
 
         if (universityService.deleteById(id)) {
-            request.setAttribute("universityDeleted", "University was deleted!");
+            request.setAttribute("universityDeleted", "message.university_deleted");
         }
 
         List<Long> specialityIds = specialityService.findAllSpecialitiesByUniversityId(id)

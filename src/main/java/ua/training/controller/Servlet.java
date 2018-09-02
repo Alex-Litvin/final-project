@@ -1,11 +1,8 @@
 package ua.training.controller;
 
-import ua.training.controller.command.AddSpecialityCommand;
 import ua.training.controller.command.Command;
-import ua.training.controller.command.get.Login;
-import ua.training.controller.command.get.ShowSpecialitiesCommand;
-import ua.training.controller.command.get.UniversitiesCommand;
-import ua.training.controller.command.post.LoginConfirm;
+import ua.training.controller.command.get.*;
+import ua.training.controller.command.post.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -18,9 +15,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = {"/login", "/login_confirm", "/universities", "/admin/specialities", "/admin/specialities_add"})
+@WebServlet(urlPatterns = {"/login", "/login_confirm", "/admin/universities", "/admin/specialities", "/admin/specialities_add",
+"/admin/show_specialities", "/admin/speciality_delete", "/admin/exam_mark", "/admin/show_user_exams", "/admin/add_exam_mark",
+"/admin/complete_speciality", "/admin/show_specialities_by_university", "/admin/complete_speciality_registration", "/admin/students",
+"/user/exam_registration", "/user/add_exam", "/user/universities_specialities", "/user/show_specialities", "/user/speciality_request",
+"/user/add_speciality_request", "/user/speciality_rating", "/user/show_rating", "/logout", "/registration", "/registration_confirm"})
 public class Servlet extends HttpServlet {
-//    private ControllerHelper controllerHelper = ControllerHelper.getInstance();
 
     private Map<String, Command> command = new HashMap<>();
 
@@ -29,25 +29,34 @@ public class Servlet extends HttpServlet {
         config.getServletContext()
                 .setAttribute("logged_email", new HashMap<String, HttpSession>());
         command.put("/login", new Login());
+        command.put("/logout", new LogoutCommand());
         command.put("/login_confirm", new LoginConfirm());
-        command.put("/universities", new UniversitiesCommand());
+        command.put("/registration", new RegistrationCommand());
+        command.put("/registration_confirm", new RegistrationConfirmCommand());
+        command.put("/admin/universities", new UniversitiesCommand());
         command.put("/admin/specialities", new ShowSpecialitiesCommand());
         command.put("/admin/specialities_add", new AddSpecialityCommand());
-
+        command.put("/admin/show_specialities", new ShowUniversitySpecialitiesCommand());
+        command.put("/admin/speciality_delete", new DeleteSpecialityCommand());
+        command.put("/admin/exam_mark", new ShowAllStudentsCommand());
+        command.put("/admin/show_user_exams", new ShowStudentExamsCommand());
+        command.put("/admin/add_exam_mark", new AddExamMarkCommand());
+        command.put("/admin/complete_speciality", new ShowUniversitiesCommand());
+        command.put("/admin/show_specialities_by_university", new ShowSpecialitiesByUniversity());
+        command.put("/admin/complete_speciality_registration", new CompleteSpecialityRegistrationCommand());
+        command.put("/admin/students", new ShowStudentsCommand());
+        command.put("/user/exam_registration", new ShowSubjectsCommand());
+        command.put("/user/add_exam", new ExamRegistrationCommand());
+        command.put("/user/universities_specialities", new ShowUniversitiesCommand());
+        command.put("/user/show_specialities", new ShowUniversitySpecialitiesCommand());
+        command.put("/user/speciality_request", new ShowAvailableSpeciality());
+        command.put("/user/add_speciality_request", new AddSpecialityRequestCommand());
+        command.put("/user/speciality_rating", new ShowSpecialityRequestCommand());
+        command.put("/user/show_rating", new ShowSpecialityRatingCommand());
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        HttpSession session = req.getSession();
-//        boolean loginStatus = session.getAttribute("user") != null;
-//        if ("registration".equals(req.getParameter("command")) && !loginStatus) {
-//            req.getRequestDispatcher("/view/registration.jsp").forward(req, resp);
-//        }
-//        if (!loginStatus) {
-//            req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
-//        }else {
-//            executeCommand(req, resp);
-//        }
         executeCommand(req, resp);
     }
 
@@ -71,20 +80,5 @@ public class Servlet extends HttpServlet {
             System.out.println("else handleServlet forward /view" + page);
             req.getRequestDispatcher("/view" + page).forward(req, resp);
         }
-
-
-
-
-//        System.out.println(req.getRequestURI());
-//        String index = controllerHelper.getCommand(req).execute(req, resp);
-//
-//        System.out.println("index" + index);
-//
-//        if (index.contains("redirect:")) {
-//            resp.sendRedirect(index.replace("redirect:", ""));
-//        } else {
-//            req.getRequestDispatcher(index).forward(req, resp);
-//        }
-
     }
 }

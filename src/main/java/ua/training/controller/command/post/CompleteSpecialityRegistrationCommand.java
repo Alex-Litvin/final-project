@@ -1,7 +1,9 @@
-package ua.training.controller.command;
+package ua.training.controller.command.post;
 
+import ua.training.controller.command.Command;
 import ua.training.model.entity.Exam;
 import ua.training.model.entity.Speciality;
+import ua.training.model.entity.University;
 import ua.training.model.entity.User;
 import ua.training.model.service.ExamService;
 import ua.training.model.service.SpecialityService;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import static java.lang.Long.parseLong;
 import static java.util.stream.Collectors.*;
 import static ua.training.model.entity.enums.EnterSpecialityStatus.YES;
 import static ua.training.model.entity.enums.SpecialityStatus.CLOSED;
@@ -29,10 +32,36 @@ public class CompleteSpecialityRegistrationCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Long specialityId = Long.parseLong(request.getParameter("specialityId"));
+        Long universityId;
+        try {
+            universityId = parseLong(request.getParameter("universityId"));
+        }catch (Exception e) {
+            return "redirect:/admin/complete_speciality?error=universityNotSelected";
+        }
+
+        Long specialityId;
+        try {
+            specialityId = parseLong(request.getParameter("specialityId"));
+        } catch (Exception e) {
+            return "redirect:/admin/complete_speciality?error=specialityNotSelected";
+        }
+
         Speciality speciality = specialityService.findById(specialityId);
+        University university = universityService.findUniversityById(universityId);
+        List<University> universities = universityService.findAllUniversities();
+        List<Speciality> specialitiesByUniversity = specialityService.findAllSpecialitiesByUniversityId(universityId);
+
+        request.setAttribute("university", university);
+        request.setAttribute("universities", universities);
+        request.setAttribute("specialitiesByUniversity", specialitiesByUniversity);
 
         List<User> users = specialityService.findAllUsersBySpecialityId(specialityId);
+
+        if (users.isEmpty()) {
+            specialityService.updateStatus(specialityId, CLOSED);
+            request.setAttribute("specialityClosed", "message.speciality_closed");
+            return "/admin/complete_speciality.jsp";
+        }
 
         List<Long> userIds = users.stream()
                 .map(User::getId)
@@ -46,20 +75,25 @@ public class CompleteSpecialityRegistrationCommand implements Command {
 
         List<Long> enteredUserIds = userIdExamMarks.entrySet().stream()
                 .filter(checkExamResults(speciality))
-                .sorted(sortByTotalExamResults())
+                .sorted(sortByTotalExamResultsDesc())
                 .limit(speciality.getMaxStudentCount())
                 .map(Map.Entry::getKey)
                 .collect(toList());
 
         specialityService.updateStatus(specialityId, CLOSED);
-        specialityService.setEnterSpecialityStatus(enteredUserIds, specialityId, YES);
+        request.setAttribute("specialityClosed", "message.speciality_closed");
 
-        return "/view/adminbasic.jsp";
+        if (!enteredUserIds.isEmpty()) {
+            specialityService.setEnterSpecialityStatus(enteredUserIds, specialityId, YES);
+        }
+
+        return "/admin/complete_speciality.jsp";
     }
 
-    private Comparator<Map.Entry<Long, List<Integer>>> sortByTotalExamResults() {
+    private Comparator<Map.Entry<Long, List<Integer>>> sortByTotalExamResultsDesc() {
         Comparator<Map.Entry<Long, List<Integer>>> comparingByTotalResultFromMinToMax = Comparator.comparing(userIdExamMark -> userIdExamMark.getValue().stream()
-                .reduce(0, (mark1, mark2) -> mark1 + mark2));
+                .mapToInt(mark -> mark)
+                .sum());
 
         return comparingByTotalResultFromMinToMax.reversed();
     }

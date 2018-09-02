@@ -1,5 +1,6 @@
-package ua.training.controller.command;
+package ua.training.controller.command.get;
 
+import ua.training.controller.command.Command;
 import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
 import ua.training.model.service.implementation.ServiceFactoryImpl;
@@ -20,6 +21,6 @@ public class ShowAllStudentsCommand implements Command {
 
         request.setAttribute("users", users);
 
-        return "/view/adminbasic.jsp";
+        return "/admin/exam_mark.jsp";
     }
 }

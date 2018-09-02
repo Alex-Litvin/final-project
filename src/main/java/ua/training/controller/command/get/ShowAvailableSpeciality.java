@@ -1,21 +1,21 @@
-package ua.training.controller.command;
+package ua.training.controller.command.get;
 
+import ua.training.controller.command.Command;
 import ua.training.model.entity.Exam;
 import ua.training.model.entity.Speciality;
 import ua.training.model.entity.University;
 import ua.training.model.entity.User;
 import ua.training.model.entity.enums.Subject;
-import ua.training.model.service.ExamService;
-import ua.training.model.service.SpecialityService;
-import ua.training.model.service.SubjectService;
-import ua.training.model.service.UniversityService;
+import ua.training.model.service.*;
 import ua.training.model.service.implementation.ServiceFactoryImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ShowAvailableSpeciality implements Command {
@@ -23,10 +23,13 @@ public class ShowAvailableSpeciality implements Command {
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
     private ExamService examService = ServiceFactoryImpl.getInstance().getExamService();
     private SubjectService subjectService = ServiceFactoryImpl.getInstance().getSubjectService();
+    private UserService userService = ServiceFactoryImpl.getInstance().getUserService();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        User user = (User) request.getSession().getAttribute("user");
+        String email = (String) request.getSession().getAttribute("userEmail");
+        User user = userService.findByEmail(email);
+
         List<Long> subjectIds = examService.findAllExamsByUserId(user.getId()).stream()
                 .map(Exam::getSubjectId)
                 .collect(Collectors.toList());
@@ -51,10 +54,8 @@ public class ShowAvailableSpeciality implements Command {
             }
         }
 
-        allAvailableSpecialities.forEach(System.out::println);
-
         request.setAttribute("allAvailableSpecialities", allAvailableSpecialities);
 
-        return "/view/userbasic.jsp";
+        return "/user/speciality_request.jsp";
     }
 }

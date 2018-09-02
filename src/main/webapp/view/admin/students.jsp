@@ -1,22 +1,30 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Applicants</title>
+    <title>Students</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
 </head>
+<body>
+<c:set var="language" value="${not empty param.language ? param.language :
+        not empty language ? language : pageContext.request.locale}" scope="session"/>
+
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="local"/>
+
+<c:import url="/view/header.jsp" charEncoding="utf-8"/>
+
 <body class="m-3">
-<div class="row col-md-6">
+<div class="row col-md-6" style="margin: auto">
     <table class="table table-striped table-bordered table-sm">
         <tr>
-            <th>Id</th>
-            <th>First name</th>
-            <th>Middle name</th>
-            <th>Second name</th>
-            <th>Status</th>
-            <th>Mobile</th>
-            <th>Email</th>
-            <th>Exams</th>
+            <th><fmt:message key="message.id"/></th>
+            <th><fmt:message key="message.output.first_name"/></th>
+            <th><fmt:message key="message.output.middle_name"/></th>
+            <th><fmt:message key="message.output.second_name"/></th>
+            <th><fmt:message key="message.output.status"/></th>
+            <th><fmt:message key="message.output.email"/></th>
         </tr>
 
         <c:forEach var="user" items="${requestScope.users}">
@@ -27,22 +35,17 @@
                 <td><c:out value="${user.middleName}"/></td>
                 <td><c:out value="${user.secondName}"/></td>
                 <td><c:out value="${user.status}"/></td>
-                <td><c:out value="${user.mobile}"/></td>
                 <td><c:out value="${user.email}"/></td>
-                <td><c:out value="${user.exams}"/></td>
             </tr>
         </c:forEach>
     </table>
-</div>
 
-<nav aria-label="Navigation for applicants">
+<nav aria-label="Navigation for students">
     <ul class="pagination">
         <c:if test="${requestScope.currentPage != 1}">
             <li class="page-item">
                 <a class="page-link"
-                   href="${pageContext.request.contextPath}/main?command=showApplicantPagination
-                   &recordsPerPage=${requestScope.recordsPerPage}
-                   &currentPage=${requestScope.currentPage-1}">Previous</a>
+                   href="${pageContext.request.contextPath}/admin/students?currentPage=${requestScope.currentPage-1}">Previous</a>
             </li>
         </c:if>
 
@@ -55,9 +58,7 @@
                 </c:when>
                 <c:otherwise>
                     <li class="page-item">
-                        <a class="page-link" href="${pageContext.request.contextPath}/main?command=showApplicantPagination
-                        &recordsPerPage=${requestScope.recordsPerPage}
-                        &currentPage=${i}">${i}</a>
+                        <a class="page-link" href="${pageContext.request.contextPath}/admin/students?currentPage=${i}">${i}</a>
                     </li>
                 </c:otherwise>
             </c:choose>
@@ -65,18 +66,12 @@
 
         <c:if test="${requestScope.currentPage lt requestScope.noOfPages}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/main?command=showApplicantPagination
-                &recordsPerPage=${requestScope.recordsPerPage}
-                &currentPage=${requestScope.currentPage+1}">Next</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/admin/students?currentPage=${requestScope.currentPage+1}">Next</a>
             </li>
         </c:if>
     </ul>
 </nav>
-
-<a href="${pageContext.request.contextPath}/?command=showUniversities">Back</a>
-
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+</div>
+<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp">Menu</a>
 </body>
 </html>

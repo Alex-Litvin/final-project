@@ -7,7 +7,6 @@ import ua.training.model.entity.enums.Role;
 import ua.training.model.service.UserService;
 
 import java.util.List;
-import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
     private UserDao userDao = DaoFactory.getInstance().getUserDao();
@@ -18,7 +17,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public User findByEmail(String email) {
         return userDao.findByEmail(email);
     }
 
@@ -45,5 +44,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userDao.findAll();
+    }
+
+    @Override
+    public int getNumberOfRows() {
+        return userDao.getNumberOfRows();
+    }
+
+    @Override
+    public List<User> findUsersFromTo(int currentPage, int recordsPerPage) {
+        return userDao.findUsersFromTo(currentPage, recordsPerPage);
     }
 }

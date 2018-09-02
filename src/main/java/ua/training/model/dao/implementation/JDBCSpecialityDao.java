@@ -58,7 +58,7 @@ public class JDBCSpecialityDao implements SpecialityDao {
 
     @Override
     public List<Speciality> findAllSpecialitiesByUniversityId(Long universityId) {
-        String query = "SELECT * FROM speciality LEFT JOIN university_speciality u on speciality.id = u.speciality_id WHERE deleted = FALSE AND university_id = ?";
+        String query = "SELECT * FROM speciality LEFT JOIN university_speciality u on speciality.id = u.speciality_id WHERE deleted = FALSE AND status = 'ACTIVE' AND university_id = ?";
         List<Speciality> specialities = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setLong(1, universityId);
@@ -313,6 +313,7 @@ public class JDBCSpecialityDao implements SpecialityDao {
         for (int i = 0; i < userIds.size(); i++) {
             query = i < (userIds.size() - 1) ? query.append("?,") : query.append("?)");
         }
+        System.out.println(query);
         try (PreparedStatement ps = connection.prepareStatement(query.toString())) {
             ps.setString(1, status.name());
             ps.setLong(2, specialityId);

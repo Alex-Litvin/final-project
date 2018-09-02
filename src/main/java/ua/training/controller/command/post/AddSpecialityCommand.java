@@ -1,6 +1,9 @@
-package ua.training.controller.command;
+package ua.training.controller.command.post;
 
+import ua.training.controller.command.Command;
 import ua.training.model.entity.Speciality;
+import ua.training.model.entity.University;
+import ua.training.model.entity.enums.Subject;
 import ua.training.model.service.SpecialityService;
 import ua.training.model.service.SubjectService;
 import ua.training.model.service.UniversityService;
@@ -32,18 +35,24 @@ public class AddSpecialityCommand implements Command {
         String secondSubject = request.getParameter("secondSubject").toUpperCase();
         String thirdSubject = request.getParameter("thirdSubject").toUpperCase();
 
-        List<String> subjects = Arrays.asList(firstSubject, secondSubject, thirdSubject);
-        if (!checkUniqueness(subjects)) {
-            request.setAttribute("notUnique", "Subjects must be unique!");
+        List<University> universities = universityService.findAllUniversities();
+        List<Subject> subjects = subjectService.findAll();
+
+        request.setAttribute("universities", universities);
+        request.setAttribute("subjects", subjects);
+
+        List<String> requiredSubjects = Arrays.asList(firstSubject, secondSubject, thirdSubject);
+        if (!checkUniqueness(requiredSubjects)) {
+            request.setAttribute("notUniqueSubject", "message.not_unique_subject");
             return "/admin/specialities.jsp";
         }
 
         if (isSpecialityAlreadyExists(universityId, title)) {
-            request.setAttribute("specialityExists", "Such speciality already exists!");
+            request.setAttribute("specialityExists", "message.speciality_exists");
             return "/admin/specialities.jsp";
         }
 
-        List<Long> subjectIds = subjectService.getIdsByNames(subjects);
+        List<Long> subjectIds = subjectService.getIdsByNames(requiredSubjects);
 
         Speciality speciality = new Speciality();
         speciality.setTitle(title);
@@ -56,8 +65,7 @@ public class AddSpecialityCommand implements Command {
 
         universityService.createUniversitySpeciality(universityId, specialityId);
 
-        request.setAttribute("message", "New speciality was added!");
-
+        request.setAttribute("specialityAdded", "message.speciality_added");
         return "/admin/specialities.jsp";
     }
 

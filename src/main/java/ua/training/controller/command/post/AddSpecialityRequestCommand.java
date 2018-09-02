@@ -1,8 +1,10 @@
-package ua.training.controller.command;
+package ua.training.controller.command.post;
 
+import ua.training.controller.command.Command;
 import ua.training.model.entity.User;
 import ua.training.model.service.SpecialityService;
 import ua.training.model.service.UniversityService;
+import ua.training.model.service.UserService;
 import ua.training.model.service.implementation.ServiceFactoryImpl;
 
 import javax.servlet.ServletException;
@@ -17,45 +19,39 @@ public class AddSpecialityRequestCommand implements Command {
 
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
     private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
+    private UserService userService = ServiceFactoryImpl.getInstance().getUserService();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        User user = (User) request.getSession().getAttribute("user");
+        String email = (String) request.getSession().getAttribute("userEmail");
         Long specialityId = Long.parseLong(request.getParameter("specialityId"));
         Long universityId = universityService.findUniversityBySpecialityId(specialityId).getId();
 
-        if (isCountRegistrationAvailable(request, user)) {
-            return "/view/userbasic.jsp";
+        User user = userService.findByEmail(email);
+
+        if (isCountRegistrationAvailable(user)) {
+            return "redirect:/user/speciality_request?error=maxCountRegistration";
         }
 
-        if (isAlreadyRegistered(request, user, specialityId, universityId)) {
-            return "/view/userbasic.jsp";
+        if (isAlreadyRegistered(user, specialityId, universityId)) {
+            return "redirect:/user/speciality_request?error=alreadyRegistered";
         }
 
         Long idSpecialityRequest = specialityService.createSpecialityRequest(user.getId(), universityId, specialityId);
         if (Objects.nonNull(idSpecialityRequest)) {
-            request.setAttribute("success", "Your request was added!");
+            return "redirect:/user/speciality_request?message=successRegistration";
         }
 
-        return "/view/userbasic.jsp";
+        return "/user/speciality_request.jsp";
     }
 
-    private boolean isAlreadyRegistered(HttpServletRequest request, User user, Long specialityId, Long universityId) {
+    private boolean isAlreadyRegistered(User user, Long specialityId, Long universityId) {
         Long userId = specialityService.findUserIdByUniversityAndSpecialityId(universityId, specialityId);
-
-        if (userId != null && userId.equals(user.getId())) {
-            request.setAttribute("alreadyRegistered", "You already registered for this speciality!");
-            return true;
-        }
-        return false;
+        return userId != null && userId.equals(user.getId());
     }
 
-    private boolean isCountRegistrationAvailable(HttpServletRequest request, User user) {
+    private boolean isCountRegistrationAvailable(User user) {
         Long countSpecialityRequests = specialityService.countSpecialityRequestsByUserId(user.getId());
-        if (countSpecialityRequests.compareTo(MAX_COUNT_REGISTRATION) > 0) {
-            request.setAttribute("maxCountRegistration", "You already registered for max count speciality!");
-            return true;
-        }
-        return false;
+        return countSpecialityRequests.compareTo(MAX_COUNT_REGISTRATION) > 0;
     }
 }

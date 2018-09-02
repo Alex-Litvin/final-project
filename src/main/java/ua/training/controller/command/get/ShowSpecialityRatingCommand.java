@@ -1,5 +1,6 @@
-package ua.training.controller.command;
+package ua.training.controller.command.get;
 
+import ua.training.controller.command.Command;
 import ua.training.model.entity.*;
 import ua.training.model.service.ExamService;
 import ua.training.model.service.SpecialityService;
@@ -40,11 +41,12 @@ public class ShowSpecialityRatingCommand implements Command {
                 .map(u -> createSpecialityRequestDto(u, sortedUserExams(u, userExams), speciality, university))
                 .collect(Collectors.toList());
 
-        specialityResultDtos.forEach(System.out::println);
-
         request.setAttribute("specialityResultDtos", specialityResultDtos);
 
-        return "/view/userbasic.jsp";
+        ShowSpecialityRequestCommand specialityRequestCommand = new ShowSpecialityRequestCommand();
+        specialityRequestCommand.execute(request, response);
+
+        return "/user/speciality_rating.jsp";
     }
 
     private List<Exam> sortedUserExams(User user, List<Exam> exams) {
