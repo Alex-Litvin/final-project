@@ -47,7 +47,7 @@
 
 <form method="post" action="${pageContext.request.contextPath}/admin/universities">
     <div>
-        <input type="text" name="title" required minlength="1" maxlength="100" placeholder="University title"/>
+        <input type="text" name="title" required minlength="1" maxlength="100" placeholder="<fmt:message key="message.university_title"/>"/>
         <button class="btn btn-secondary" type="submit"><fmt:message key="message.add"/></button>
     </div>
 </form>

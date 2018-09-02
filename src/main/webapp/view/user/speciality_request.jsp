@@ -21,12 +21,12 @@
             <select name="specialityId">
                 <c:forEach var="speciality" items="${requestScope.allAvailableSpecialities}">
                     <option value="${speciality.id}">
-                        <c:out value="${speciality.title} "/><c:out value="${speciality.universityTitle}"/>
+                        <c:out value="${speciality.title} "/>
+                        <c:out value="${speciality.universityTitle}"/>
                     </option>
                 </c:forEach>
             </select>
         </label>
-        <input type="hidden" name="command" value="requestForSpeciality">
         <input type="submit" name="button" value="Submit">
     </form>
 </div>

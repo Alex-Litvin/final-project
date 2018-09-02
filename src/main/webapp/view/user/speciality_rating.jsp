@@ -33,21 +33,21 @@
 <div>
     <table>
         <tr>
-            <th>First name</th>
-            <th>Middle name</th>
-            <th>Last name</th>
-            <th>University</th>
-            <th>Speciality</th>
-            <th>Max student count</th>
-            <th>Passmark</th>
+            <th><fmt:message key="message.output.first_name"/></th>
+            <th><fmt:message key="message.output.middle_name"/></th>
+            <th><fmt:message key="message.output.second_name"/></th>
+            <th><fmt:message key="message.university_title"/></th>
+            <th><fmt:message key="message.speciality_title"/></th>
+            <th><fmt:message key="message.max_student_count"/></th>
+            <th><fmt:message key="message.passmark"/></th>
             <c:forEach var="specialityResultDto" items="${requestScope.specialityResultDtos}" begin="0" end="0">
                 <jsp:useBean id="specialityResultDto" class="ua.training.model.entity.SpecialityResultDto"/>
                 <c:forEach var="exam" items="${specialityResultDto.userExams}">
                     <th><c:out value="${exam.title}"/></th>
                 </c:forEach>
             </c:forEach>
-            <th>Total mark</th>
-            <th>Enter status</th>
+            <th><fmt:message key="message.total_mark"/></th>
+            <th><fmt:message key="message.enter_status"/></th>
         </tr>
         <c:forEach var="specialityResultDto" items="${requestScope.specialityResultDtos}">
             <tr>

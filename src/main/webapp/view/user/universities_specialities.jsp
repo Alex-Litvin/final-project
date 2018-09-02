@@ -5,31 +5,6 @@
 <head>
     <title>Universities</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        .button {
-            background-color: #4CAF50; /* Green */
-            border: none;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-        .button1 {padding: 4px 15px;}
-    </style>
 </head>
 <body>
 <c:set var="language" value="${not empty param.language ? param.language :
@@ -52,7 +27,7 @@
                 </c:forEach>
             </select>
         </label>
-        <button class="button button1" type="submit"><fmt:message key="message.select"/></button>
+        <button type="submit"><fmt:message key="message.select"/></button>
     </form>
 </div>
 <div>
@@ -60,7 +35,7 @@
         <c:if test="${!empty requestScope.specialitiesWithSubjects}">
             <tr>
                 <th><fmt:message key="message.speciality_title"/></th>
-                <th><fmt:message key="message.reqiured_subjects"/></th>
+                <th><fmt:message key="message.required_subjects"/></th>
                 <th><fmt:message key="message.study_places"/></th>
                 <th><fmt:message key="message.passmark"/></th>
             </tr>

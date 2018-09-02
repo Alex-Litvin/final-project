@@ -34,7 +34,7 @@ public class App {
 //        List<Speciality> specialityRequests = specialityService.findAllSpecialitiesByUserId(27L);
 //        specialityRequests.forEach(System.out::println);
 
-        System.out.println(getUnicodeCodes("Додати спеціальність"));
+        System.out.println(getUnicodeCodes("Зарахований"));
 
 
     }

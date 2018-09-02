@@ -33,7 +33,7 @@
         </label><fmt:message key="message.speciality_title"/><br>
         <label>
             <input type="number" min="0" required minlength="0" name="maxStudentCount">
-        </label><fmt:message key="message.max_sudent_count"/><br>
+        </label><fmt:message key="message.max_student_count"/><br>
         <label>
             <input type="number" min="0" required minlength="0" name="passmark">
         </label><fmt:message key="message.passmark"/><br>
