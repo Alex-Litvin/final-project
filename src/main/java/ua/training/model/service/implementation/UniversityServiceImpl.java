@@ -1,17 +1,15 @@
 package ua.training.model.service.implementation;
 
-import ua.training.model.entity.University;
 import ua.training.model.dao.DaoFactory;
-import ua.training.model.dao.SpecialityDao;
 import ua.training.model.dao.UniversityDao;
+import ua.training.model.entity.University;
 import ua.training.model.service.UniversityService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UniversityServiceImpl implements UniversityService {
+
     private UniversityDao universityDao = DaoFactory.getInstance().getUniversityDao();
-    private SpecialityDao specialityDao = DaoFactory.getInstance().getSpecialityDao();
 
     @Override
     public Long createUniversity(University university) {
@@ -21,11 +19,6 @@ public class UniversityServiceImpl implements UniversityService {
     @Override
     public boolean deleteById(Long universityId) {
         return universityDao.markAsDeleted(universityId);
-    }
-
-    @Override
-    public Long update(University university) {
-        return universityDao.update(university);
     }
 
     @Override
@@ -53,10 +46,4 @@ public class UniversityServiceImpl implements UniversityService {
         return universityDao.findAllUniversities();
     }
 
-    @Override
-    public List<University> getAllUniversitiesWithSpecialities() {
-        return universityDao.findAllUniversities().stream()
-                .peek(u -> u.setSpecialities(specialityDao.findAllSpecialitiesByUniversityId(u.getId())))
-                .collect(Collectors.toList());
-    }
 }

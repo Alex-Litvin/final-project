@@ -47,6 +47,6 @@
     </c:if><br>
 </div>
 
-<a href="${pageContext.request.contextPath}/registration">Registration</a><br>
+<a href="${pageContext.request.contextPath}/registration"><fmt:message key="message.registration"/></a><br>
 </body>
 </html>

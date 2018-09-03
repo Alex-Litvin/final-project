@@ -1,6 +1,7 @@
 package ua.training.controller.command.post;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.Exam;
 import ua.training.model.entity.User;
 import ua.training.model.service.ExamService;
@@ -16,7 +17,7 @@ import java.util.List;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 
-public class AddExamMarkCommand implements Command {
+public class AddExamMarkCommand implements Command, Page {
 
     private static final int MIN_MARK = 0;
     private static final int MAX_MARK = 100;
@@ -29,17 +30,18 @@ public class AddExamMarkCommand implements Command {
         try {
             userId = parseLong(request.getParameter("userId"));
         } catch (Exception e) {
-            return "redirect:/admin/exam_mark?error=userNotSelected";
+            return REDIRECT + ADMIN_EXAM_MARK + "?error=userNotSelected";
         }
 
         String title = request.getParameter("examTitle");
         Integer mark = parseInt(request.getParameter("mark"));
 
         if (checkMarkBounds(mark)) {
-            return "redirect:/admin/exam_mark?error=markNotValid";
+            return REDIRECT + ADMIN_EXAM_MARK + "?error=markNotValid";
         }
+
         if (checkTitle(title)) {
-            return "redirect:/admin/exam_mark?error=examNotSelected";
+            return REDIRECT + ADMIN_EXAM_MARK + "?error=examNotSelected";
         }
 
         Exam exam = new Exam();
@@ -59,8 +61,7 @@ public class AddExamMarkCommand implements Command {
         request.setAttribute("userExams", userExams);
         request.setAttribute("user", user);
 
-
-        return "/admin/exam_mark.jsp";
+        return ADMIN_ADD_EXAM_MARK + JSP;
     }
 
     private boolean checkTitle(String title) {

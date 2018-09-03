@@ -3,6 +3,7 @@ package ua.training.model.service.implementation;
 import ua.training.model.service.*;
 
 public class ServiceFactoryImpl implements ServiceFactory {
+
     private static final ServiceFactoryImpl instance = new ServiceFactoryImpl();
 
     private final UserService userService;

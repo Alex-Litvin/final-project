@@ -31,14 +31,17 @@
     </form>
 </div>
 <div>
-    <table>
+    <table class="table table-striped">
         <c:if test="${!empty requestScope.specialitiesWithSubjects}">
+            <thead>
             <tr>
-                <th><fmt:message key="message.speciality_title"/></th>
-                <th><fmt:message key="message.required_subjects"/></th>
-                <th><fmt:message key="message.study_places"/></th>
-                <th><fmt:message key="message.passmark"/></th>
+                <th scope="col"><fmt:message key="message.speciality_title"/></th>
+                <th scope="col"><fmt:message key="message.required_subjects"/></th>
+                <th scope="col"><fmt:message key="message.study_places"/></th>
+                <th scope="col"><fmt:message key="message.passmark"/></th>
             </tr>
+            </thead>
+            <tbody>
             <c:forEach var="speciality" items="${requestScope.specialitiesWithSubjects}">
                 <jsp:useBean id="speciality" class="ua.training.model.entity.Speciality"/>
                 <tr>
@@ -48,9 +51,10 @@
                     <td><c:out value="${speciality.passmark}"/></td>
                 </tr>
             </c:forEach>
+            </tbody>
         </c:if>
     </table>
 </div>
-<a href="${pageContext.request.contextPath}/view/user/user_menu.jsp">Menu</a>
+<a href="${pageContext.request.contextPath}/view/user/user_menu.jsp"><fmt:message key="message.menu"/></a>
 </body>
 </html>

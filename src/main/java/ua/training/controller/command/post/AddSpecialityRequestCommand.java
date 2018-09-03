@@ -1,6 +1,7 @@
 package ua.training.controller.command.post;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.User;
 import ua.training.model.service.SpecialityService;
 import ua.training.model.service.UniversityService;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
-public class AddSpecialityRequestCommand implements Command {
+public class AddSpecialityRequestCommand implements Command, Page {
 
     private static final Long MAX_COUNT_REGISTRATION = 3L;
 
@@ -30,19 +31,19 @@ public class AddSpecialityRequestCommand implements Command {
         User user = userService.findByEmail(email);
 
         if (isCountRegistrationAvailable(user)) {
-            return "redirect:/user/speciality_request?error=maxCountRegistration";
+            return REDIRECT + USER_SPECIALITY_REQUEST + "?error=maxCountRegistration";
         }
 
         if (isAlreadyRegistered(user, specialityId, universityId)) {
-            return "redirect:/user/speciality_request?error=alreadyRegistered";
+            return REDIRECT + USER_SPECIALITY_REQUEST + "?error=alreadyRegistered";
         }
 
         Long idSpecialityRequest = specialityService.createSpecialityRequest(user.getId(), universityId, specialityId);
         if (Objects.nonNull(idSpecialityRequest)) {
-            return "redirect:/user/speciality_request?message=successRegistration";
+            return REDIRECT + USER_SPECIALITY_REQUEST + "?error=successRegistration";
         }
 
-        return "/user/speciality_request.jsp";
+        return USER_SPECIALITY_REQUEST + JSP;
     }
 
     private boolean isAlreadyRegistered(User user, Long specialityId, Long universityId) {

@@ -1,10 +1,8 @@
 package ua.training.model.dao.implementation;
 
 import ua.training.model.dao.SpecialityDao;
-import ua.training.model.dao.mapper.ExamMapper;
 import ua.training.model.dao.mapper.SpecialityMapper;
 import ua.training.model.dao.mapper.UserMapper;
-import ua.training.model.entity.Exam;
 import ua.training.model.entity.Speciality;
 import ua.training.model.entity.User;
 import ua.training.model.entity.enums.EnterSpecialityStatus;
@@ -15,9 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCSpecialityDao implements SpecialityDao {
+
     private Connection connection;
 
-    public JDBCSpecialityDao(Connection connection) {
+    JDBCSpecialityDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -67,10 +66,10 @@ public class JDBCSpecialityDao implements SpecialityDao {
             while (rs.next()) {
                 specialities.add(mapper.extractFromResultSet(rs));
             }
+            return specialities;
         } catch (SQLException e) {
             throw new RuntimeException();
         }
-        return specialities;
     }
 
     @Override
@@ -90,12 +89,11 @@ public class JDBCSpecialityDao implements SpecialityDao {
             while (rs.next()) {
                 specialities.add(mapper.extractFromResultSet(rs));
             }
-
+            return specialities;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return specialities;
     }
 
     @Override
@@ -106,11 +104,11 @@ public class JDBCSpecialityDao implements SpecialityDao {
         }
         try (PreparedStatement ps = connection.prepareStatement(query.toString())) {
             ps.executeUpdate();
+            return subjectIds;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return subjectIds;
     }
 
     @Override
@@ -124,49 +122,11 @@ public class JDBCSpecialityDao implements SpecialityDao {
             while (rs.next()) {
                 users.add(mapper.extractFromResultSet(rs));
             }
+            return users;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return users;
-    }
-
-    @Override
-    public List<User> findUsersFromTo(Long specialityId, Long currentPage, Long recordsPerPage) {
-        String query = "SELECT * FROM user LEFT JOIN user_speciality u on user.id = u.user_id WHERE speciality_id = ? LIMIT ?, ?";
-        List<User> users = new ArrayList<>();
-        Long start = currentPage * recordsPerPage - recordsPerPage;
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setLong(1, specialityId);
-            ps.setLong(2, start);
-            ps.setLong(3, recordsPerPage);
-            ResultSet rs = ps.executeQuery();
-            UserMapper mapper = new UserMapper();
-            while (rs.next()) {
-                users.add(mapper.extractFromResultSet(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-        return users;
-    }
-
-    @Override
-    public Long getNumberOfRows(Long specialityId) {
-        Long numOfRows = 0L;
-        String query = "SELECT COUNT(user.id) FROM user LEFT JOIN user_speciality u on user.id = u.user_id WHERE speciality_id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setLong(1, specialityId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                numOfRows++;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-        return numOfRows;
     }
 
     @Override
@@ -196,11 +156,11 @@ public class JDBCSpecialityDao implements SpecialityDao {
             while (rs.next()) {
                 specialities.add(mapper.extractFromResultSet(rs));
             }
+            return specialities;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return specialities;
     }
 
     @Override
@@ -214,11 +174,11 @@ public class JDBCSpecialityDao implements SpecialityDao {
             if (rs.next()) {
                 userId = rs.getLong("user_id");
             }
+            return userId;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return userId;
     }
 
     @Override
@@ -266,24 +226,6 @@ public class JDBCSpecialityDao implements SpecialityDao {
                 return mapper.extractFromResultSet(rs);
             }
             throw new SQLException();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-    }
-
-    @Override
-    public List<Exam> findRequiredExamsById(Long specialityId) {
-        String query = "SELECT * FROM speciality LEFT JOIN speciality_subject ss on speciality.id = ss.speciality_id WHERE speciality_id = ?";
-        List<Exam> exams = new ArrayList<>();
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setLong(1, specialityId);
-            ResultSet rs = ps.executeQuery();
-            ExamMapper mapper = new ExamMapper();
-            while (rs.next()) {
-                exams.add(mapper.extractFromResultSet(rs));
-            }
-            return exams;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();

@@ -1,6 +1,7 @@
 package ua.training.controller.command.get;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.Exam;
 import ua.training.model.entity.Speciality;
 import ua.training.model.entity.University;
@@ -18,7 +19,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ShowAvailableSpeciality implements Command {
+public class ShowAvailableSpeciality implements Command, Page {
+
     private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
     private ExamService examService = ServiceFactoryImpl.getInstance().getExamService();
@@ -56,6 +58,6 @@ public class ShowAvailableSpeciality implements Command {
 
         request.setAttribute("allAvailableSpecialities", allAvailableSpecialities);
 
-        return "/user/speciality_request.jsp";
+        return USER_SPECIALITY_REQUEST + JSP;
     }
 }

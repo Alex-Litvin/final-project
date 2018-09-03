@@ -58,21 +58,25 @@
         </label>
         <button type="submit"><fmt:message key="message.add"/></button>
     </form>
-    <c:if test="${not empty requestScope.examMarkAdded}">
-        <h2><fmt:message key="${requestScope.examMarkAdded}"/></h2>
-    </c:if>
-    <c:if test="${param.error != null}">
-        <c:if test="${param.error == 'markNotValid'}">
-            <fmt:message key="error_mark_not_valid"/>
+    <div class="alert alert-success" role="alert">
+        <c:if test="${not empty requestScope.examMarkAdded}">
+            <h2><fmt:message key="${requestScope.examMarkAdded}"/></h2>
         </c:if>
-        <c:if test="${param.error == 'examNotSelected'}">
-            <fmt:message key="error_exam_not_selected"/>
-        </c:if>
-        <c:if test="${param.error == 'userNotSelected'}">
-            <fmt:message key="error_user_not_selected"/>
-        </c:if>
-    </c:if><br>
+    </div>
+    <div class="alert alert-danger" role="alert">
+        <c:if test="${param.error != null}">
+            <c:if test="${param.error == 'markNotValid'}">
+                <h2><fmt:message key="error_mark_not_valid"/></h2>
+            </c:if>
+            <c:if test="${param.error == 'examNotSelected'}">
+                <h2><fmt:message key="error_exam_not_selected"/></h2>
+            </c:if>
+            <c:if test="${param.error == 'userNotSelected'}">
+                <h2><fmt:message key="error_user_not_selected"/></h2>
+            </c:if>
+        </c:if><br>
+    </div>
 </div>
-<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp">Menu</a>
+<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp"><fmt:message key="message.menu"/></a>
 </body>
 </html>

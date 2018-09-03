@@ -1,6 +1,7 @@
 package ua.training.controller.command.get;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.Speciality;
 import ua.training.model.entity.User;
 import ua.training.model.service.SpecialityService;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ShowSpecialityRequestCommand implements Command {
+public class ShowSpecialityRequestCommand implements Command, Page {
 
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
     private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
@@ -33,6 +34,6 @@ public class ShowSpecialityRequestCommand implements Command {
 
         request.setAttribute("specialityRequests", specialityRequests);
 
-        return "/user/speciality_rating.jsp";
+        return USER_SPECIALITY_RATING + JSP;
     }
 }

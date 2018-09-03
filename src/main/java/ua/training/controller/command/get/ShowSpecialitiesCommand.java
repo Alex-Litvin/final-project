@@ -1,6 +1,7 @@
 package ua.training.controller.command.get;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.University;
 import ua.training.model.entity.enums.Subject;
 import ua.training.model.service.SubjectService;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ShowSpecialitiesCommand implements Command {
+public class ShowSpecialitiesCommand implements Command, Page {
 
     private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
     private SubjectService subjectService = ServiceFactoryImpl.getInstance().getSubjectService();
@@ -26,6 +27,6 @@ public class ShowSpecialitiesCommand implements Command {
         request.setAttribute("universities", universities);
         request.setAttribute("subjects", subjects);
 
-        return "/admin/specialities.jsp";
+        return ADMIN_SPECIALITIES + JSP;
     }
 }

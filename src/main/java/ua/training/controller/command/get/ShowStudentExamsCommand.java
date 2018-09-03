@@ -1,6 +1,7 @@
 package ua.training.controller.command.get;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.Exam;
 import ua.training.model.entity.User;
 import ua.training.model.service.ExamService;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ShowStudentExamsCommand implements Command {
+public class ShowStudentExamsCommand implements Command, Page {
 
     private ExamService examService = ServiceFactoryImpl.getInstance().getExamService();
     private UserService userService = ServiceFactoryImpl.getInstance().getUserService();
@@ -29,6 +30,6 @@ public class ShowStudentExamsCommand implements Command {
         request.setAttribute("userExams", userExams);
         request.setAttribute("users", users);
 
-        return "/admin/exam_mark.jsp";
+        return ADMIN_EXAM_MARK + JSP;
     }
 }

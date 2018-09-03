@@ -15,7 +15,7 @@
 <span>
     <div>
         <form method="post" action="${pageContext.request.contextPath}/logout">
-            <button type="submit">Logout</button>
+            <button type="submit"><fmt:message key="message.logout"/></button>
         </form>
     </div>
 </span>

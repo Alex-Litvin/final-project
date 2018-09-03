@@ -57,16 +57,18 @@
     </form>
 </div>
 
-<c:if test="${param.error != null}">
-    <c:if test="${param.error == 'emptyField'}">
-        <fmt:message key="error_empty_field"/>
-    </c:if>
-    <c:if test="${param.error == 'userExists'}">
-        <fmt:message key="error_user_exists"/>
-    </c:if>
-</c:if><br>
+<div class="alert alert-danger" role="alert">
+    <c:if test="${param.error != null}">
+        <c:if test="${param.error == 'emptyField'}">
+            <fmt:message key="error_empty_field"/>
+        </c:if>
+        <c:if test="${param.error == 'userExists'}">
+            <fmt:message key="error_user_exists"/>
+        </c:if>
+    </c:if><br>
+</div>
 
-<a href="${pageContext.request.contextPath}/login">Log In</a><br>
+<a href="${pageContext.request.contextPath}/login"><fmt:message key="message.login"/></a><br>
 
 </body>
 </html>

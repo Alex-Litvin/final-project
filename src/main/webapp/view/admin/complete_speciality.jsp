@@ -49,18 +49,23 @@
         </label>
         <button type="submit"><fmt:message key="message.select"/></button>
     </form>
-    <c:if test="${not empty requestScope.specialityClosed}">
-        <h2><fmt:message key="${requestScope.specialityClosed}"/></h2>
-    </c:if>
-    <c:if test="${param.error != null}">
-        <c:if test="${param.error == 'specialityNotSelected'}">
-            <fmt:message key="error_speciality_not_selected"/>
+
+    <div class="alert alert-success" role="alert">
+        <c:if test="${not empty requestScope.specialityClosed}">
+            <h2><fmt:message key="${requestScope.specialityClosed}"/></h2>
         </c:if>
-        <c:if test="${param.error == 'universityNotSelected'}">
-            <fmt:message key="error_university_not_selected"/>
-        </c:if>
-    </c:if><br>
+    </div>
+    <div class="alert alert-danger" role="alert">
+        <c:if test="${param.error != null}">
+            <c:if test="${param.error == 'specialityNotSelected'}">
+                <h2><fmt:message key="error_speciality_not_selected"/></h2>
+            </c:if>
+            <c:if test="${param.error == 'universityNotSelected'}">
+                <h2><fmt:message key="error_university_not_selected"/></h2>
+            </c:if>
+        </c:if><br>
+    </div>
 </div>
-<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp">Menu</a>
+<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp"><fmt:message key="message.menu"/></a>
 </body>
 </html>

@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCSubjectDao implements SubjectDao {
+
     private Connection connection;
 
-    public JDBCSubjectDao(Connection connection) {
+    JDBCSubjectDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -28,11 +29,11 @@ public class JDBCSubjectDao implements SubjectDao {
             while (rs.next()) {
                 subjects.add(mapper.extractFromResultSet(rs));
             }
+            return subjects;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return subjects;
     }
 
     @Override
@@ -51,11 +52,11 @@ public class JDBCSubjectDao implements SubjectDao {
             while (rs.next()) {
                 subjectIds.add(rs.getLong("id"));
             }
+            return subjectIds;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return subjectIds;
     }
 
     @Override
@@ -74,11 +75,11 @@ public class JDBCSubjectDao implements SubjectDao {
             while (rs.next()) {
                 subjects.add(mapper.extractFromResultSet(rs));
             }
+            return subjects;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return subjects;
     }
 
     @Override
@@ -91,29 +92,11 @@ public class JDBCSubjectDao implements SubjectDao {
             if (rs.next()) {
                 subjectId = rs.getLong("id");
             }
+            return subjectId;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return subjectId;
-    }
-
-    @Override
-    public Subject getSubjectById(Long subjectId) {
-        String query = "SELECT * FROM subject WHERE id = ?";
-        Subject subject = null;
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setLong(1, subjectId);
-            ResultSet rs = ps.executeQuery();
-            SubjectMapper mapper = new SubjectMapper();
-            if (rs.next()) {
-                subject = mapper.extractFromResultSet(rs);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-        return subject;
     }
 
     @Override
@@ -133,10 +116,10 @@ public class JDBCSubjectDao implements SubjectDao {
             while (rs.next()) {
                 subjects.add(mapper.extractFromResultSet(rs));
             }
+            return subjects;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return subjects;
     }
 }

@@ -8,6 +8,7 @@ import ua.training.model.service.SubjectService;
 import java.util.List;
 
 public class SubjectServiceImpl implements SubjectService {
+
     private SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
 
     @Override
@@ -33,11 +34,6 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Long getIdByName(String title) {
         return subjectDao.getIdByName(title);
-    }
-
-    @Override
-    public Subject getSubjectById(Long subjectId) {
-        return subjectDao.getSubjectById(subjectId);
     }
 
     @Override

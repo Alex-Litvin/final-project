@@ -33,14 +33,17 @@
 </div>
 <div>
     <form method="post" action="${pageContext.request.contextPath}/admin/speciality_delete">
-        <table>
+        <table class="table table-striped">
             <c:if test="${!empty requestScope.specialitiesWithSubjects}">
+                <thead>
                 <tr>
-                    <th>Speciality</th>
-                    <th>Required subjects</th>
-                    <th>Study Places</th>
-                    <th>Passmark</th>
+                    <th scope="col"><fmt:message key="message.speciality_title"/></th>
+                    <th scope="col"><fmt:message key="message.required_subjects"/></th>
+                    <th scope="col"><fmt:message key="message.study_places"/></th>
+                    <th scope="col"><fmt:message key="message.passmark"/></th>
                 </tr>
+                </thead>
+                <tbody>
                 <c:forEach var="speciality" items="${requestScope.specialitiesWithSubjects}">
                     <jsp:useBean id="speciality" class="ua.training.model.entity.Speciality"/>
                     <tr>
@@ -54,10 +57,11 @@
                         </td>
                     </tr>
                 </c:forEach>
+                </tbody>
             </c:if>
         </table>
     </form>
 </div>
-<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp">Menu</a>
+<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp"><fmt:message key="message.menu"/></a>
 </body>
 </html>

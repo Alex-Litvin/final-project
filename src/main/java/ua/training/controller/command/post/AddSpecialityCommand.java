@@ -1,6 +1,7 @@
 package ua.training.controller.command.post;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.Speciality;
 import ua.training.model.entity.University;
 import ua.training.model.entity.enums.Subject;
@@ -17,7 +18,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-public class AddSpecialityCommand implements Command {
+public class AddSpecialityCommand implements Command, Page {
 
     private static final int REQUIRED_COUNT_SUBJECTS = 3;
 
@@ -44,12 +45,12 @@ public class AddSpecialityCommand implements Command {
         List<String> requiredSubjects = Arrays.asList(firstSubject, secondSubject, thirdSubject);
         if (!checkUniqueness(requiredSubjects)) {
             request.setAttribute("notUniqueSubject", "message.not_unique_subject");
-            return "/admin/specialities.jsp";
+            return ADMIN_SPECIALITIES + JSP;
         }
 
         if (isSpecialityAlreadyExists(universityId, title)) {
             request.setAttribute("specialityExists", "message.speciality_exists");
-            return "/admin/specialities.jsp";
+            return ADMIN_SPECIALITIES + JSP;
         }
 
         List<Long> subjectIds = subjectService.getIdsByNames(requiredSubjects);
@@ -60,13 +61,14 @@ public class AddSpecialityCommand implements Command {
         speciality.setPassmark(passmark);
 
         Long specialityId = specialityService.createSpeciality(speciality);
-
         specialityService.createSpecialitySubjects(specialityId, subjectIds);
+        Long universitySpecialityId = universityService.createUniversitySpeciality(universityId, specialityId);
 
-        universityService.createUniversitySpeciality(universityId, specialityId);
+        if (universitySpecialityId != null) {
+            request.setAttribute("specialityAdded", "message.speciality_added");
+        }
 
-        request.setAttribute("specialityAdded", "message.speciality_added");
-        return "/admin/specialities.jsp";
+        return ADMIN_SPECIALITIES + JSP;
     }
 
     private boolean checkUniqueness(List<String> subjects) {

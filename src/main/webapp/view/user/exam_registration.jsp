@@ -31,16 +31,21 @@
     </form>
 </div>
 
-<c:if test="${not empty requestScope.examQuantity}">
-    <h2><fmt:message key="${requestScope.examQuantity}"/></h2>
-</c:if>
-<c:if test="${not empty requestScope.examNotUnique}">
-    <h2><fmt:message key="${requestScope.examNotUnique}"/></h2>
-</c:if>
-<c:if test="${not empty requestScope.examAdded}">
-    <h2><fmt:message key="${requestScope.examAdded}"/></h2>
-</c:if>
 
-<a href="${pageContext.request.contextPath}/view/user/user_menu.jsp">Menu</a>
+<div class="alert alert-success" role="alert">
+    <c:if test="${not empty requestScope.examAdded}">
+        <h2><fmt:message key="${requestScope.examAdded}"/></h2>
+    </c:if>
+</div>
+<div class="alert alert-danger" role="alert">
+    <c:if test="${not empty requestScope.examQuantity}">
+        <h2><fmt:message key="${requestScope.examQuantity}"/></h2>
+    </c:if>
+    <c:if test="${not empty requestScope.examNotUnique}">
+        <h2><fmt:message key="${requestScope.examNotUnique}"/></h2>
+    </c:if>
+</div>
+
+<a href="${pageContext.request.contextPath}/view/user/user_menu.jsp"><fmt:message key="message.menu"/></a>
 </body>
 </html>

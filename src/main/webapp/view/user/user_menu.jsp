@@ -19,7 +19,7 @@
     <table>
         <span>
             <div>
-                <a href="${pageContext.request.contextPath}/user/exam_registration">Exam registration</a>
+                <a href="${pageContext.request.contextPath}/user/exam_registration"><fmt:message key="message.exam_registration"/></a>
             </div>
         </span>
         <span>

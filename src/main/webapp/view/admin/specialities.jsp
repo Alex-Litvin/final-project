@@ -66,17 +66,20 @@
         </label><br>
         <input type="submit" name="button" value="Submit">
     </form>
-
-    <c:if test="${not empty requestScope.specialityAdded}">
-        <h2><fmt:message key="${requestScope.specialityAdded}"/></h2>
-    </c:if>
-    <c:if test="${not empty requestScope.specialityExists}">
-        <h2><fmt:message key="${requestScope.specialityExists}"/></h2>
-    </c:if>
-    <c:if test="${not empty requestScope.notUniqueSubject}">
-        <h2><fmt:message key="${requestScope.notUniqueSubject}"/></h2>
-    </c:if>
+    <div class="alert alert-success" role="alert">
+        <c:if test="${not empty requestScope.specialityAdded}">
+            <h2><fmt:message key="${requestScope.specialityAdded}"/></h2>
+        </c:if>
+    </div>
+    <div class="alert alert-danger" role="alert">
+        <c:if test="${not empty requestScope.specialityExists}">
+            <h2><fmt:message key="${requestScope.specialityExists}"/></h2>
+        </c:if>
+        <c:if test="${not empty requestScope.notUniqueSubject}">
+            <h2><fmt:message key="${requestScope.notUniqueSubject}"/></h2>
+        </c:if>
+    </div>
 </div>
-<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp">Menu</a>
+<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp"><fmt:message key="message.menu"/></a>
 </body>
 </html>

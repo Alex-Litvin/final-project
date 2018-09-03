@@ -1,6 +1,7 @@
 package ua.training.controller.command.get;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.*;
 import ua.training.model.service.ExamService;
 import ua.training.model.service.SpecialityService;
@@ -15,7 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ShowSpecialityRatingCommand implements Command {
+public class ShowSpecialityRatingCommand implements Command, Page {
 
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
     private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
@@ -46,7 +47,7 @@ public class ShowSpecialityRatingCommand implements Command {
         ShowSpecialityRequestCommand specialityRequestCommand = new ShowSpecialityRequestCommand();
         specialityRequestCommand.execute(request, response);
 
-        return "/user/speciality_rating.jsp";
+        return USER_SPECIALITY_RATING + JSP;
     }
 
     private List<Exam> sortedUserExams(User user, List<Exam> exams) {

@@ -72,6 +72,6 @@
     </ul>
 </nav>
 </div>
-<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp">Menu</a>
+<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp"><fmt:message key="message.menu"/></a>
 </body>
 </html>

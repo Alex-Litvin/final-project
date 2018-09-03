@@ -31,20 +31,24 @@
     </form>
 </div>
 
-<c:if test="${param.error != null}">
-    <c:if test="${param.error == 'alreadyRegistered'}">
-        <fmt:message key="error_speciality_already_registered"/>
+<div class="alert alert-success" role="alert">
+    <c:if test="${param.message != null}">
+        <c:if test="${param.message == 'successRegistration'}">
+            <fmt:message key="message.success_registration"/>
+        </c:if>
     </c:if>
-    <c:if test="${param.error == 'maxCountRegistration'}">
-        <fmt:message key="error_max_count_registration"/>
+</div>
+<div class="alert alert-danger" role="alert">
+    <c:if test="${param.error != null}">
+        <c:if test="${param.error == 'alreadyRegistered'}">
+            <fmt:message key="error_speciality_already_registered"/>
+        </c:if>
+        <c:if test="${param.error == 'maxCountRegistration'}">
+            <fmt:message key="error_max_count_registration"/>
+        </c:if>
     </c:if>
-</c:if>
-<c:if test="${param.message != null}">
-    <c:if test="${param.message == 'successRegistration'}">
-        <fmt:message key="message.success_registration"/>
-    </c:if>
-</c:if>
+</div>
 
-<a href="${pageContext.request.contextPath}/view/user/user_menu.jsp">Menu</a>
+<a href="${pageContext.request.contextPath}/view/user/user_menu.jsp"><fmt:message key="message.menu"/></a>
 </body>
 </html>

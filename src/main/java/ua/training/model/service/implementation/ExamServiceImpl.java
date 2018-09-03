@@ -1,14 +1,14 @@
 package ua.training.model.service.implementation;
 
-import ua.training.model.entity.Exam;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.ExamDao;
+import ua.training.model.entity.Exam;
 import ua.training.model.service.ExamService;
 
 import java.util.List;
-import java.util.Map;
 
 public class ExamServiceImpl implements ExamService {
+
     private ExamDao examDao = DaoFactory.getInstance().getExamDao();
 
     @Override

@@ -1,6 +1,7 @@
 package ua.training.controller.filter;
 
 import ua.training.controller.command.ServletUtil;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.enums.Role;
 
 import javax.servlet.*;
@@ -10,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = "/view/*")
-public class SecurityFilter implements Filter {
+@WebFilter(urlPatterns = {"/admin/*", "/user/*"})
+public class SecurityFilter implements Filter, Page {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -28,11 +29,11 @@ public class SecurityFilter implements Filter {
         String email = servletUtil.getSessionEmail(request);
 
         String requestURI = request.getRequestURI();
+        System.out.println("requestURI filter: " + requestURI);
 
         System.out.println("filter " + (session != null) + "- sess " + (email != null) + " - email " + (role != null) + "-role");
 
         if (session != null && email != null && role != null) {
-
             System.err.println("AUTHENTICATION SERVLET IN WORK Role = " + role + " email = " + email);
 
             if (role.getHomePage().equals(requestURI) || role.getAllowedPages().contains(requestURI)) {
@@ -42,7 +43,7 @@ public class SecurityFilter implements Filter {
                 response.sendRedirect(role.getHomePage());
             }
         } else {
-            response.sendRedirect("/login");
+            response.sendRedirect(LOGIN);
         }
 
     }

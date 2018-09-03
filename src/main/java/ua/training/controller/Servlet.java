@@ -3,6 +3,7 @@ package ua.training.controller;
 import ua.training.controller.command.Command;
 import ua.training.controller.command.get.*;
 import ua.training.controller.command.post.*;
+import ua.training.controller.utility.Page;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -15,12 +16,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = {"/login", "/login_confirm", "/admin/universities", "/admin/specialities", "/admin/specialities_add",
-"/admin/show_specialities", "/admin/speciality_delete", "/admin/exam_mark", "/admin/show_user_exams", "/admin/add_exam_mark",
-"/admin/complete_speciality", "/admin/show_specialities_by_university", "/admin/complete_speciality_registration", "/admin/students",
-"/user/exam_registration", "/user/add_exam", "/user/universities_specialities", "/user/show_specialities", "/user/speciality_request",
-"/user/add_speciality_request", "/user/speciality_rating", "/user/show_rating", "/logout", "/registration", "/registration_confirm"})
-public class Servlet extends HttpServlet {
+@WebServlet(urlPatterns = {Page.HOME, Page.LOGIN, Page.LOGOUT, Page.LOGIN_CONFIRM, Page.REGISTRATION, Page.ADMIN_UNIVERSITIES, Page.ADMIN_SPECIALITIES, Page.ADMIN_SPECIALITIES_ADD,
+        Page.ADMIN_SHOW_SPECIALITIES, Page.ADMIN_SPECIALITY_DELETE, Page.ADMIN_EXAM_MARK, Page.ADMIN_SHOW_USER_EXAMS, Page.ADMIN_ADD_EXAM_MARK,
+        Page.ADMIN_COMPLETE_SPECIALITY, Page.ADMIN_SHOW_SPECIALITIES_BY_UNIVERSITY, Page.ADMIN_COMPLETE_SPECIALITY_REGISTRATION, Page.ADMIN_STUDENTS,
+        Page.USER_EXAM_REGISTRATION, Page.USER_ADD_EXAM, Page.USER_UNIVERSITIES_SPECIALITIES, Page.USER_SHOW_SPECIALITIES, Page.USER_SPECIALITY_REQUEST,
+        Page.USER_ADD_SPECIALITY_REQUEST, Page.USER_SPECIALITY_RATING, Page.USER_SHOW_RATING, Page.REGISTRATION_CONFIRM})
+public class Servlet extends HttpServlet implements Page {
 
     private Map<String, Command> command = new HashMap<>();
 
@@ -28,31 +29,33 @@ public class Servlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         config.getServletContext()
                 .setAttribute("logged_email", new HashMap<String, HttpSession>());
-        command.put("/login", new Login());
-        command.put("/logout", new LogoutCommand());
-        command.put("/login_confirm", new LoginConfirm());
-        command.put("/registration", new RegistrationCommand());
-        command.put("/registration_confirm", new RegistrationConfirmCommand());
-        command.put("/admin/universities", new UniversitiesCommand());
-        command.put("/admin/specialities", new ShowSpecialitiesCommand());
-        command.put("/admin/specialities_add", new AddSpecialityCommand());
-        command.put("/admin/show_specialities", new ShowUniversitySpecialitiesCommand());
-        command.put("/admin/speciality_delete", new DeleteSpecialityCommand());
-        command.put("/admin/exam_mark", new ShowAllStudentsCommand());
-        command.put("/admin/show_user_exams", new ShowStudentExamsCommand());
-        command.put("/admin/add_exam_mark", new AddExamMarkCommand());
-        command.put("/admin/complete_speciality", new ShowUniversitiesCommand());
-        command.put("/admin/show_specialities_by_university", new ShowSpecialitiesByUniversity());
-        command.put("/admin/complete_speciality_registration", new CompleteSpecialityRegistrationCommand());
-        command.put("/admin/students", new ShowStudentsCommand());
-        command.put("/user/exam_registration", new ShowSubjectsCommand());
-        command.put("/user/add_exam", new ExamRegistrationCommand());
-        command.put("/user/universities_specialities", new ShowUniversitiesCommand());
-        command.put("/user/show_specialities", new ShowUniversitySpecialitiesCommand());
-        command.put("/user/speciality_request", new ShowAvailableSpeciality());
-        command.put("/user/add_speciality_request", new AddSpecialityRequestCommand());
-        command.put("/user/speciality_rating", new ShowSpecialityRequestCommand());
-        command.put("/user/show_rating", new ShowSpecialityRatingCommand());
+
+        command.put(HOME, new HomeCommand());
+        command.put(LOGIN, new Login());
+        command.put(LOGOUT, new LogoutCommand());
+        command.put(LOGIN_CONFIRM, new LoginConfirm());
+        command.put(REGISTRATION, new RegistrationCommand());
+        command.put(REGISTRATION_CONFIRM, new RegistrationConfirmCommand());
+        command.put(ADMIN_UNIVERSITIES, new UniversitiesCommand());
+        command.put(ADMIN_SPECIALITIES, new ShowSpecialitiesCommand());
+        command.put(ADMIN_SPECIALITIES_ADD, new AddSpecialityCommand());
+        command.put(ADMIN_SHOW_SPECIALITIES, new ShowUniversitySpecialitiesCommand());
+        command.put(ADMIN_SPECIALITY_DELETE, new DeleteSpecialityCommand());
+        command.put(ADMIN_EXAM_MARK, new ShowAllStudentsCommand());
+        command.put(ADMIN_SHOW_USER_EXAMS, new ShowStudentExamsCommand());
+        command.put(ADMIN_ADD_EXAM_MARK, new AddExamMarkCommand());
+        command.put(ADMIN_COMPLETE_SPECIALITY, new ShowUniversitiesCommand());
+        command.put(ADMIN_SHOW_SPECIALITIES_BY_UNIVERSITY, new ShowSpecialitiesByUniversity());
+        command.put(ADMIN_COMPLETE_SPECIALITY_REGISTRATION, new CompleteSpecialityRegistrationCommand());
+        command.put(ADMIN_STUDENTS, new ShowStudentsCommand());
+        command.put(USER_EXAM_REGISTRATION, new ShowSubjectsCommand());
+        command.put(USER_ADD_EXAM, new ExamRegistrationCommand());
+        command.put(USER_UNIVERSITIES_SPECIALITIES, new ShowUniversitiesCommand());
+        command.put(USER_SHOW_SPECIALITIES, new ShowUniversitySpecialitiesCommand());
+        command.put(USER_SPECIALITY_REQUEST, new ShowAvailableSpeciality());
+        command.put(USER_ADD_SPECIALITY_REQUEST, new AddSpecialityRequestCommand());
+        command.put(USER_SPECIALITY_RATING, new ShowSpecialityRequestCommand());
+        command.put(USER_SHOW_RATING, new ShowSpecialityRatingCommand());
     }
 
     @Override
@@ -68,17 +71,19 @@ public class Servlet extends HttpServlet {
     private void executeCommand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getRequestURI();
 
-        System.out.println(path);
+        System.out.println("execute command path: " +path);
 
-        Command servletCommand = command.getOrDefault(path, (r, q) -> "/login");
+        Command servletCommand = command.getOrDefault(path, (r, q) -> HOME);
         String page = servletCommand.execute(req, resp);
         System.out.println("page: - " + page);
-        if (page.contains("redirect:")) {
+
+        if (page.contains(REDIRECT)) {
             System.out.println("redirect here to " + path);
-            resp.sendRedirect(page.replace("redirect:", ""));
+            resp.sendRedirect(page.replace(REDIRECT, ""));
         } else {
             System.out.println("else handleServlet forward /view" + page);
-            req.getRequestDispatcher("/view" + page).forward(req, resp);
+            req.getRequestDispatcher(VIEW + page).forward(req, resp);
         }
     }
 }
+

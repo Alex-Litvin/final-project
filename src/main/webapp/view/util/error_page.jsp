@@ -5,4 +5,4 @@
     <title>ErrorPage</title>
 </head>
 <body>
-<h2>Sorry something gone wrong. You can go to home <a href="/home">page</a> </h2>
+<h2>Sorry something gone wrong.</h2>

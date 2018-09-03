@@ -1,6 +1,7 @@
 package ua.training.controller.command.post;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.Exam;
 import ua.training.model.entity.Speciality;
 import ua.training.model.entity.University;
@@ -24,7 +25,7 @@ import static java.util.stream.Collectors.*;
 import static ua.training.model.entity.enums.EnterSpecialityStatus.YES;
 import static ua.training.model.entity.enums.SpecialityStatus.CLOSED;
 
-public class CompleteSpecialityRegistrationCommand implements Command {
+public class CompleteSpecialityRegistrationCommand implements Command, Page {
 
     private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
@@ -36,14 +37,14 @@ public class CompleteSpecialityRegistrationCommand implements Command {
         try {
             universityId = parseLong(request.getParameter("universityId"));
         }catch (Exception e) {
-            return "redirect:/admin/complete_speciality?error=universityNotSelected";
+            return REDIRECT + ADMIN_COMPLETE_SPECIALITY + "?error=universityNotSelected";
         }
 
         Long specialityId;
         try {
             specialityId = parseLong(request.getParameter("specialityId"));
         } catch (Exception e) {
-            return "redirect:/admin/complete_speciality?error=specialityNotSelected";
+            return REDIRECT + ADMIN_COMPLETE_SPECIALITY + "?error=specialityNotSelected";
         }
 
         Speciality speciality = specialityService.findById(specialityId);
@@ -60,7 +61,7 @@ public class CompleteSpecialityRegistrationCommand implements Command {
         if (users.isEmpty()) {
             specialityService.updateStatus(specialityId, CLOSED);
             request.setAttribute("specialityClosed", "message.speciality_closed");
-            return "/admin/complete_speciality.jsp";
+            return ADMIN_COMPLETE_SPECIALITY + JSP;
         }
 
         List<Long> userIds = users.stream()
@@ -71,7 +72,6 @@ public class CompleteSpecialityRegistrationCommand implements Command {
 
         Map<Long, List<Integer>> userIdExamMarks = exams.stream()
                 .collect(groupingBy(Exam::getUserId, mapping(Exam::getMark, toList())));
-
 
         List<Long> enteredUserIds = userIdExamMarks.entrySet().stream()
                 .filter(checkExamResults(speciality))
@@ -87,7 +87,7 @@ public class CompleteSpecialityRegistrationCommand implements Command {
             specialityService.setEnterSpecialityStatus(enteredUserIds, specialityId, YES);
         }
 
-        return "/admin/complete_speciality.jsp";
+        return ADMIN_COMPLETE_SPECIALITY + JSP;
     }
 
     private Comparator<Map.Entry<Long, List<Integer>>> sortByTotalExamResultsDesc() {

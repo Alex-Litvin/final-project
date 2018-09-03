@@ -1,6 +1,7 @@
 package ua.training.controller.command.get;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.Speciality;
 import ua.training.model.entity.University;
 import ua.training.model.service.SpecialityService;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class UniversitiesCommand implements Command {
+public class UniversitiesCommand implements Command, Page {
 
     private UniversityService universityService = ServiceFactoryImpl.getInstance().getUniversityService();
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
@@ -36,9 +37,7 @@ public class UniversitiesCommand implements Command {
         List<University> universities = universityService.findAllUniversities();
         request.setAttribute("universities", universities);
 
-        universities.forEach(System.out::println);
-
-        return "/admin/universities.jsp";
+        return ADMIN_UNIVERSITIES + JSP;
     }
 
     private void create(String title, HttpServletRequest request) {
@@ -49,10 +48,11 @@ public class UniversitiesCommand implements Command {
 
         University university = new University();
         university.setTitle(title);
-        universityService.createUniversity(university);
+        Long newUniversityId = universityService.createUniversity(university);
 
-        request.setAttribute("universityAdded", "message.university_added");
-
+        if (newUniversityId != null) {
+            request.setAttribute("universityAdded", "message.university_added");
+        }
     }
 
     private boolean checkUniqueness(String title) {

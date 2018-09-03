@@ -52,10 +52,7 @@
     </div>
 </form>
 
-<div class="alert alert-danger" role="alert">
-    <c:if test="${not empty requestScope.universityExists}">
-        <h2><fmt:message key="${requestScope.universityExists}"/></h2>
-    </c:if>
+<div class="alert alert-success" role="alert">
     <c:if test="${not empty requestScope.universityAdded}">
         <h2><fmt:message key="${requestScope.universityAdded}"/></h2>
     </c:if>
@@ -63,8 +60,13 @@
         <h2><fmt:message key="${requestScope.universityDeleted}"/></h2>
     </c:if>
 </div>
+<div class="alert alert-danger" role="alert">
+    <c:if test="${not empty requestScope.universityExists}">
+        <h2><fmt:message key="${requestScope.universityExists}"/></h2>
+    </c:if>
+</div>
 
-<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp">Menu</a>
+<a href="${pageContext.request.contextPath}/view/admin/admin_menu.jsp"><fmt:message key="message.menu"/></a>
 
 </body>
 </html>

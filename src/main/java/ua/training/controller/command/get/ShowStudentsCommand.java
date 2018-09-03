@@ -1,6 +1,7 @@
 package ua.training.controller.command.get;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.User;
 import ua.training.model.service.SpecialityService;
 import ua.training.model.service.UserService;
@@ -12,14 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ShowStudentsCommand implements Command {
+public class ShowStudentsCommand implements Command, Page {
+
+    private static final int RECORDS_PER_PAGE = 5;
 
     private UserService userService = ServiceFactoryImpl.getInstance().getUserService();
     private SpecialityService specialityService = ServiceFactoryImpl.getInstance().getSpecialityService();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        int recordsPerPage = 5;//Integer.parseInt(request.getParameter("recordsPerPage"));
+        int recordsPerPage = RECORDS_PER_PAGE;
         int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 
         List<User> users = userService.findUsersFromTo(currentPage, recordsPerPage);
@@ -39,6 +42,6 @@ public class ShowStudentsCommand implements Command {
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("recordsPerPage", recordsPerPage);
 
-        return "/admin/students.jsp";
+        return ADMIN_STUDENTS + JSP;
     }
 }

@@ -3,7 +3,6 @@ package ua.training.model.dao.implementation;
 import ua.training.model.dao.UserDao;
 import ua.training.model.dao.mapper.UserMapper;
 import ua.training.model.entity.User;
-import ua.training.model.entity.enums.Role;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCUserDao implements UserDao {
+
     private Connection connection;
 
-    public JDBCUserDao(Connection connection) {
+    JDBCUserDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -49,18 +49,16 @@ public class JDBCUserDao implements UserDao {
             if (rs.next()) {
                 user = userMapper.extractFromResultSet(rs);
             }
+            return user;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        ;
-        return user;
     }
 
     @Override
     public List<User> findAll() {
         String query = "SELECT * FROM user";
-        //user_speciality u on user.id = u.user_id
         List<User> users = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
@@ -83,7 +81,7 @@ public class JDBCUserDao implements UserDao {
             if (rs.next()) {
                 return rs.getInt("total");
             }
-            throw new RuntimeException();
+            throw new SQLException();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
@@ -128,52 +126,14 @@ public class JDBCUserDao implements UserDao {
     }
 
     @Override
-    public boolean userIsExist(String email, String password) {
-        String query = "SELECT * FROM user WHERE email = ? AND  password = ?";
-        boolean result = false;
-        try (PreparedStatement ps = connection.prepareCall(query)) {
-            ps.setString(1, email);
-            ps.setString(2, password);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = true;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
-        return result;
-    }
-
-    @Override
-    public Role getRoleByEmailAndPassword(String email, String password) {
-        String query = "SELECT * FROM user WHERE email = ? AND  password = ?";
-        Role result = Role.GUEST;
-        try (PreparedStatement ps = connection.prepareCall(query)) {
-            ps.setString(1, email);
-            ps.setString(2, password);
-            ResultSet rs = ps.executeQuery();
-            UserMapper userMapper = new UserMapper();
-            if (rs.next()) {
-                result = userMapper.extractFromResultSet(rs).getRole();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
-        return result;
-    }
-
-    @Override
     public boolean checkEmail(String email) {
         String query = "SELECT true FROM user WHERE email = ? LIMIT 1";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
+            return rs.next();
         } catch (SQLException e) {
             throw new RuntimeException();
         }
-        return false;
     }
 }

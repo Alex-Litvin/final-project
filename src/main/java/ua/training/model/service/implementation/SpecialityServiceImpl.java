@@ -3,7 +3,6 @@ package ua.training.model.service.implementation;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.SpecialityDao;
 import ua.training.model.dao.SubjectDao;
-import ua.training.model.entity.Exam;
 import ua.training.model.entity.Speciality;
 import ua.training.model.entity.User;
 import ua.training.model.entity.enums.EnterSpecialityStatus;
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public  class SpecialityServiceImpl implements SpecialityService {
+
     private SpecialityDao specialityDao = DaoFactory.getInstance().getSpecialityDao();
     private SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
 
@@ -53,16 +53,6 @@ public  class SpecialityServiceImpl implements SpecialityService {
     }
 
     @Override
-    public List<User> findUsersFromTo(Long specialityId, Long currentPage, Long recordsPerPage) {
-        return specialityDao.findUsersFromTo(specialityId, currentPage, recordsPerPage);
-    }
-
-    @Override
-    public Long getNumberOfRows(Long specialityId) {
-        return specialityDao.getNumberOfRows(specialityId);
-    }
-
-    @Override
     public List<Speciality> findAll() {
         return specialityDao.findAll();
     }
@@ -92,11 +82,6 @@ public  class SpecialityServiceImpl implements SpecialityService {
     @Override
     public List<Speciality> findAllSpecialitiesByUserId(Long userId) {
         return specialityDao.findAllSpecialitiesByUserId(userId);
-    }
-
-    @Override
-    public List<Exam> findRequiredExamsById(Long specialityId) {
-        return specialityDao.findRequiredExamsById(specialityId);
     }
 
     @Override

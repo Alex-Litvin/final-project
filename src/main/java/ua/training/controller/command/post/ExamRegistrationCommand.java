@@ -1,6 +1,7 @@
 package ua.training.controller.command.post;
 
 import ua.training.controller.command.Command;
+import ua.training.controller.utility.Page;
 import ua.training.model.entity.Exam;
 import ua.training.model.entity.User;
 import ua.training.model.entity.enums.Subject;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ExamRegistrationCommand implements Command {
+public class ExamRegistrationCommand implements Command, Page {
 
     private static final int MAX_QUANTITY_EXAMS = 3;
     private ExamService examService = ServiceFactoryImpl.getInstance().getExamService();
@@ -35,12 +36,12 @@ public class ExamRegistrationCommand implements Command {
 
         if (checkQuantityExams(user.getId())) {
             request.setAttribute("examQuantity", "message.exam_max_quantity");
-            return "/user/exam_registration.jsp";
+            return USER_EXAM_REGISTRATION + JSP;
         }
 
         if (checkExamUniqueness(user.getId(), subjectId)) {
             request.setAttribute("examNotUnique", "message.not_unique_exam");
-            return "/user/exam_registration.jsp";
+            return USER_EXAM_REGISTRATION + JSP;
         }
 
         Exam exam = new Exam();
@@ -54,7 +55,7 @@ public class ExamRegistrationCommand implements Command {
             request.setAttribute("examAdded", "message.exam_added");
         }
 
-        return "/user/exam_registration.jsp";
+        return USER_EXAM_REGISTRATION + JSP;
     }
 
     private boolean checkQuantityExams(Long userId) {

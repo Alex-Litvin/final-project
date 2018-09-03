@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCExamDao implements ExamDao {
+
     private Connection connection;
 
     JDBCExamDao(Connection connection) {
@@ -45,11 +46,11 @@ public class JDBCExamDao implements ExamDao {
             if (rs.next()) {
                 examId = rs.getLong("id");
             }
+            return examId;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-        return examId;
     }
 
     @Override
