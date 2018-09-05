@@ -49,6 +49,8 @@ public class ShowAvailableSpeciality implements Command, Page {
             University university = universityService.findUniversityBySpecialityId(speciality.getId());
             speciality.setUniversityTitle(university.getTitle());
 
+            allAvailableSpecialities.forEach(System.out::println);
+
             Collections.sort(userSubjects);
             Collections.sort(speciality.getRequiredSubject());
             if (userSubjects.equals(speciality.getRequiredSubject())) {

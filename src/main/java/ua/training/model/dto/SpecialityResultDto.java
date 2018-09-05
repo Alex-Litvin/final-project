@@ -1,13 +1,12 @@
-package ua.training.model.entity;
+package ua.training.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.training.model.entity.Exam;
 import ua.training.model.entity.enums.EnterSpecialityStatus;
-import ua.training.model.entity.enums.Subject;
 
 import java.util.List;
-import java.util.Map;
 
 @Data
 @AllArgsConstructor

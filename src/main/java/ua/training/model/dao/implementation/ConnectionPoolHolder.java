@@ -3,11 +3,12 @@ package ua.training.model.dao.implementation;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
-public class ConnectionPoolHolder {
+class ConnectionPoolHolder {
     private static volatile DataSource dataSource;
-    public static DataSource getDataSource(){
-
+    private Properties properties = new Properties();
+    static DataSource getDataSource(){
         if (dataSource == null){
             synchronized (ConnectionPoolHolder.class) {
                 if (dataSource == null) {

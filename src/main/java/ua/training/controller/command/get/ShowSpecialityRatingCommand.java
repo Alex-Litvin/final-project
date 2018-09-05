@@ -2,7 +2,11 @@ package ua.training.controller.command.get;
 
 import ua.training.controller.command.Command;
 import ua.training.controller.utility.Page;
-import ua.training.model.entity.*;
+import ua.training.model.dto.SpecialityResultDto;
+import ua.training.model.entity.Exam;
+import ua.training.model.entity.Speciality;
+import ua.training.model.entity.University;
+import ua.training.model.entity.User;
 import ua.training.model.service.ExamService;
 import ua.training.model.service.SpecialityService;
 import ua.training.model.service.UniversityService;

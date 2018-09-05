@@ -40,7 +40,7 @@ public class AddSpecialityRequestCommand implements Command, Page {
 
         Long idSpecialityRequest = specialityService.createSpecialityRequest(user.getId(), universityId, specialityId);
         if (Objects.nonNull(idSpecialityRequest)) {
-            return REDIRECT + USER_SPECIALITY_REQUEST + "?error=successRegistration";
+            return REDIRECT + USER_SPECIALITY_REQUEST + "?message=successRegistration";
         }
 
         return USER_SPECIALITY_REQUEST + JSP;

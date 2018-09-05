@@ -74,7 +74,7 @@ public class JDBCSpecialityDao implements SpecialityDao {
 
     @Override
     public List<Speciality> findAllSpecialitiesByUniversityIds(List<Long> universityIds) {
-        StringBuilder query = new StringBuilder("SELECT * FROM speciality LEFT JOIN university_speciality u on speciality.id = u.speciality_id WHERE deleted = FALSE AND university_id IN (");
+        StringBuilder query = new StringBuilder("SELECT * FROM speciality LEFT JOIN university_speciality u on speciality.id = u.speciality_id WHERE deleted = FALSE AND status = 'ACTIVE'  AND university_id IN (");
         List<Speciality> specialities = new ArrayList<>();
         for (int i = 0; i < universityIds.size(); i++) {
             query = i < (universityIds.size() - 1) ? query.append("?,") : query.append("?)");

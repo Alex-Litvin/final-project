@@ -45,7 +45,7 @@
                 <th scope="col"><fmt:message key="message.max_student_count"/></th>
                 <th scope="col"><fmt:message key="message.passmark"/></th>
                 <c:forEach var="specialityResultDto" items="${requestScope.specialityResultDtos}" begin="0" end="0">
-                    <jsp:useBean id="specialityResultDto" class="ua.training.model.entity.SpecialityResultDto"/>
+                    <jsp:useBean id="specialityResultDto" class="ua.training.model.dto.SpecialityResultDto"/>
                     <c:forEach var="exam" items="${specialityResultDto.userExams}">
                         <th scope="col"><c:out value="${exam.title}"/></th>
                     </c:forEach>
