@@ -1,5 +1,6 @@
 package ua.training.controller.filter;
 
+import org.apache.log4j.Logger;
 import ua.training.controller.command.ServletUtil;
 import ua.training.controller.utility.Page;
 import ua.training.model.entity.enums.Role;
@@ -13,9 +14,12 @@ import java.io.IOException;
 
 @WebFilter(urlPatterns = {"/admin/*", "/user/*"})
 public class SecurityFilter implements Filter, Page {
+
+    private static final Logger log = Logger.getLogger(SecurityFilter.class);
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        log.info("Security filter: init");
     }
 
     @Override
@@ -27,22 +31,21 @@ public class SecurityFilter implements Filter, Page {
 
         Role role = servletUtil.getSessionRole(request);
         String email = servletUtil.getSessionEmail(request);
-
         String requestURI = request.getRequestURI();
-        System.out.println("requestURI filter: " + requestURI);
 
-        System.out.println("filter " + (session != null) + "- sess " + (email != null) + " - email " + (role != null) + "-role");
+        log.info("Security filter: session - " + (session != null) + ", email - " + (email != null) + ", role - " + (role != null));
 
         if (session != null && email != null && role != null) {
-            System.err.println("AUTHENTICATION SERVLET IN WORK Role = " + role + " email = " + email);
-
+            log.info("Security filter: " + role + " " + email);
             if (role.getHomePage().equals(requestURI) || role.getAllowedPages().contains(requestURI)) {
-                System.out.println("CONTAIN !!!!!");
+                log.info("Security filter: allowed page");
                 filterChain.doFilter(req, resp);
             } else {
+                log.info("Security filter: redirect to role's home page");
                 response.sendRedirect(role.getHomePage());
             }
         } else {
+            log.info("Security filter: redirect to login page");
             response.sendRedirect(LOGIN);
         }
 
@@ -50,6 +53,6 @@ public class SecurityFilter implements Filter, Page {
 
     @Override
     public void destroy() {
-
+        log.info("Security filter: destroy");
     }
 }

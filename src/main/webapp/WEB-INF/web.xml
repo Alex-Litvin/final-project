@@ -14,5 +14,10 @@
         <location>/view/util/error_page.jsp</location>
     </error-page>
 
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.request.charset</param-name>
+        <param-value>UTF-8</param-value>
+    </context-param>
+
 
 </web-app>

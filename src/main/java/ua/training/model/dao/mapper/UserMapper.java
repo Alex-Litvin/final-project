@@ -6,12 +6,9 @@ import ua.training.model.entity.enums.Status;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
-public class UserMapper implements ObjectMapper<User> {
+public class UserMapper {
 
-
-    @Override
     public User extractFromResultSet(ResultSet rs) throws SQLException {
         User user = new User();
         user.setId(rs.getLong("id"));
@@ -24,10 +21,5 @@ public class UserMapper implements ObjectMapper<User> {
         user.setStatus(Status.valueOf(rs.getString("status")));
 
         return user;
-    }
-
-    @Override
-    public User makeUnique(Map<Integer, User> cache, User entity) {
-        return null;
     }
 }

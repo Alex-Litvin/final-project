@@ -32,6 +32,18 @@ public class RegistrationConfirmCommand implements Command, Page {
             return REDIRECT + REGISTRATION + "?error=emptyField";
         }
 
+        if (!Validator.checkNames(firstName, middleName, secondName)) {
+            return REDIRECT + REGISTRATION + "?error=nameNotValid";
+        }
+
+        if (!Validator.checkEmail(email)) {
+            return REDIRECT + REGISTRATION + "?error=emailNotValid";
+        }
+
+        if (!Validator.checkPassword(password)) {
+            return REDIRECT + REGISTRATION + "?error=passwordNotValid";
+        }
+
         if (userService.checkEmail(email)) {
             return REDIRECT + REGISTRATION + "?error=userExists";
         }

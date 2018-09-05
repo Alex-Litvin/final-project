@@ -26,6 +26,8 @@ public class UniversitiesCommand implements Command, Page {
         String universityId = request.getParameter("universityId");
         String universityTitle = request.getParameter("title");
 
+        System.out.println(universityTitle);
+
         if (universityId != null) {
             deleteUniversityAndSpecialities(request, universityId);
         }

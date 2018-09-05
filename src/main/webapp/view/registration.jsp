@@ -62,6 +62,15 @@
         <c:if test="${param.error == 'emptyField'}">
             <fmt:message key="error_empty_field"/>
         </c:if>
+        <c:if test="${param.error == 'nameNotValid'}">
+            <fmt:message key="message.name_not_valid.regexp"/>
+        </c:if>
+        <c:if test="${param.error == 'emailNotValid'}">
+            <fmt:message key="message.email_not_valid.regexp"/>
+        </c:if>
+        <c:if test="${param.error == 'passwordNotValid'}">
+            <fmt:message key="message.password_not_valid.regexp"/>
+        </c:if>
         <c:if test="${param.error == 'userExists'}">
             <fmt:message key="error_user_exists"/>
         </c:if>

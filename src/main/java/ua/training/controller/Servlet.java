@@ -1,5 +1,6 @@
 package ua.training.controller;
 
+import org.apache.log4j.Logger;
 import ua.training.controller.command.Command;
 import ua.training.controller.command.get.*;
 import ua.training.controller.command.post.*;
@@ -23,10 +24,13 @@ import java.util.Map;
         Page.USER_ADD_SPECIALITY_REQUEST, Page.USER_SPECIALITY_RATING, Page.USER_SHOW_RATING, Page.REGISTRATION_CONFIRM})
 public class Servlet extends HttpServlet implements Page {
 
+    private static final Logger log = Logger.getLogger(Servlet.class);
+
     private Map<String, Command> command = new HashMap<>();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+        log.info("Servlet: init");
         config.getServletContext()
                 .setAttribute("logged_email", new HashMap<String, HttpSession>());
 
@@ -60,28 +64,27 @@ public class Servlet extends HttpServlet implements Page {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.info("Servlet: doGet");
         executeCommand(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.info("Servlet: doPost");
         executeCommand(req, resp);
     }
 
     private void executeCommand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getRequestURI();
-
-        System.out.println("execute command path: " +path);
-
+        log.info("Servlet: request path " + path);
         Command servletCommand = command.getOrDefault(path, (r, q) -> HOME);
         String page = servletCommand.execute(req, resp);
-        System.out.println("page: - " + page);
-
+        log.info("Servlet: page " + page);
         if (page.contains(REDIRECT)) {
-            System.out.println("redirect here to " + path);
+            log.info("Servlet: redirect to " + path);
             resp.sendRedirect(page.replace(REDIRECT, ""));
         } else {
-            System.out.println("else handleServlet forward /view" + page);
+            log.info("Servlet: forward to " + VIEW + page);
             req.getRequestDispatcher(VIEW + page).forward(req, resp);
         }
     }

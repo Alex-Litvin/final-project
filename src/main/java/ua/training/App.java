@@ -34,7 +34,7 @@ public class App {
 //        List<Speciality> specialityRequests = specialityService.findAllSpecialitiesByUserId(27L);
 //        specialityRequests.forEach(System.out::println);
 
-        System.out.println(getUnicodeCodes("Подати заяву на спеціальність"));
+        System.out.println(getUnicodeCodes("Пароль має бути у форматі (^[A-Za-z0-9_-]{6,20}$)"));
 
 
     }
